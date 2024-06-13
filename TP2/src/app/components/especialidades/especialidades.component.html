@@ -1,0 +1,11 @@
+<div class="login__field">
+    <div style="width: 100%; margin-right: 20px; flex: 1;">
+        <select class="login-input" [(ngModel)]="especialidad" (ngModelChange)="enviarEspecialidad()">
+            <option *ngFor="let option of especialidades">{{ option }}</option>
+        </select>
+    </div>
+    <div style="display: flex; justify-content: space-between; align-items: center; flex: 1;">
+        <input style="margin-right: 20px;" class="login-input" type="text" placeholder="Otra" [(ngModel)]="nuevaEspecialidad" name="otraEspecialidad" />
+        <button (click)="agregarEspecialidad()"><i>➕</i></button>
+    </div>
+</div>

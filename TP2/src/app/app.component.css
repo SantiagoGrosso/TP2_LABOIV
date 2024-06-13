@@ -1,0 +1,85 @@
+body {
+    font-family: Arial, sans-serif;
+  }
+  
+  .navbar {
+    background-color: #d1a054; /* sandy-beige */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem; /* Añadido para espacio entre elementos */
+  }
+  
+  .title {
+    margin: 0; /* Ajuste de margen para eliminar el espacio predeterminado */
+    color: #2e4c6d; /* caladan-blue */
+    font-size: 1.5rem;
+    display: flex; /* Utilizando flexbox */
+    align-items: center; /* Centra verticalmente */
+  }
+  
+  .navbar-brand {
+    display: flex;
+  }
+  
+  .navbar-brand img {
+    width: 50px;
+    margin-right: 1rem; /* Ajuste del margen derecho */
+  }
+  
+  .navbar h1 {
+    color: #2e4c6d; /* caladan-blue */
+    font-size: 1.5rem;
+    margin-left: 335px;
+    padding: 0.5rem 0;
+    font-family: 'Dune', sans-serif;
+  }
+  
+  .navbar-nav {
+    display: flex;
+    flex-grow: 1; /* Ocupa el espacio restante */
+  }
+
+  .navbar a{
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  .nav-item {
+    margin: 0 10px;
+  }
+  
+  .nav-link {
+    color: #2e4c6D; /* spice-melange */
+    font-size: 1rem;
+    transition: color 0.3s;
+  }
+  
+  .nav-link:hover {
+    color: #d2691e; /* desert-ochre */
+  }
+  
+  .logout-btn {
+    background-color: transparent;
+    border: none;
+    color: #d2691e; /* spice-melange */
+    font-size: 1.2rem;
+    transition: color 0.3s;
+  }
+  
+  .logout-btn:hover {
+    color: #d1a054; /* desert-ochre */
+  }
+  
+  .navbar-toggler {
+    border-color: #2e4c6d; /* caladan-blue */
+  }
+  
+  .navbar-toggler-icon {
+    color: #2e4c6d; /* caladan-blue */
+    font-size: 1.5rem; /* Aumento del tamaño */
+  }
+  
+  .navbar-nav .nav-item {
+    list-style-type: none; /* Oculta el marcador de lista */
+  }
+  

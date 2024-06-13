@@ -1,0 +1,49 @@
+<body>
+<div class="register-container">
+    <h2>Registro especialistas</h2>
+    <form (ngSubmit)="onSubmit(registerForm)" #registerForm="ngForm">
+      <div class="form-group">
+        <label for="nombre">Nombre</label>
+        <input type="text" id="nombre" name="nombre" ngModel required>
+      </div>
+  
+      <div class="form-group">
+        <label for="apellido">Apellido</label>
+        <input type="text" id="apellido" name="apellido" ngModel required>
+      </div>
+  
+      <div class="form-group">
+        <label for="edad">Edad</label>
+        <input type="number" id="edad" name="edad" ngModel required>
+      </div>
+  
+      <div class="form-group">
+        <label for="dni">DNI</label>
+        <input type="text" id="dni" name="dni" ngModel required>
+      </div>
+
+      <label>Especialidad</label>
+  
+      <app-especialidades (especilidadSeleccionada)="recibirEspecialidad($event)"> </app-especialidades>
+  
+      <div class="form-group">
+        <label for="mail">Mail</label>
+        <input type="email" id="mail" name="mail" ngModel required>
+      </div>
+  
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" ngModel required>
+      </div>
+  
+      <div class="form-group">
+        <label for="profileImage">Imagen de Perfil</label>
+        <input type="file" id="profileImage" name="profileImage" (change)="onFileChange($event)" required>
+      </div>
+  
+      <button type="submit" [disabled]="!registerForm.valid">Registrarse</button>
+    </form>
+  </div>
+      
+</body>
+  

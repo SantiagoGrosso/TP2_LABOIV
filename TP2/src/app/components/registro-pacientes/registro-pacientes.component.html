@@ -1,0 +1,54 @@
+<body>
+<div class="register-container">
+    <h2>Registro pacientes</h2>
+    <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
+      <div class="form-group">
+        <label for="nombre">Nombre</label>
+        <input type="text" id="nombre" name="nombre" ngModel required>
+      </div>
+  
+      <div class="form-group">
+        <label for="apellido">Apellido</label>
+        <input type="text" id="apellido" name="apellido" ngModel required>
+      </div>
+  
+      <div class="form-group">
+        <label for="edad">Edad</label>
+        <input type="number" id="edad" name="edad" ngModel required>
+      </div>
+  
+      <div class="form-group">
+        <label for="dni">DNI</label>
+        <input type="text" id="dni" name="dni" ngModel required>
+      </div>
+  
+      <div class="form-group">
+        <label for="obraSocial">Obra Social</label>
+        <input type="text" id="obraSocial" name="obraSocial" ngModel required>
+      </div>
+  
+      <div class="form-group">
+        <label for="mail">Correo</label>
+        <input type="email" id="mail" name="mail" ngModel required>
+      </div>
+  
+      <div class="form-group">
+        <label for="password">Contraseña</label>
+        <input type="password" id="password" name="password" ngModel required>
+      </div>
+  
+      <div class="form-group">
+        <label for="profileImage1">Imagen de Perfil 1</label>
+        <input type="file" id="profileImage1" name="profileImage1" (change)="onFileChange($event, 1)" required>
+      </div>
+  
+      <div class="form-group">
+        <label for="profileImage2">Imagen de Perfil 2</label>
+        <input type="file" id="profileImage2" name="profileImage2" (change)="onFileChange($event, 2)" required>
+      </div>
+  
+      <button type="submit" [disabled]="!registerForm.valid">Registrarse</button>
+    </form>
+  </div>
+</body>
+  

@@ -1,0 +1,31 @@
+.login__field
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.login-input
+{
+    border: none;
+    padding: 10px;
+    border: 1px solid #2e4c6D;
+    outline: none;
+    border-radius: 5px;
+    background: none;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+button
+{
+    border: 1px solid #2e4c6D;;
+    background-color: #2e4c6D;
+    border-radius: 8px;
+    width: 50px; /* Ajusta el ancho según sea necesario */
+    height: 35px; /* Ajusta la altura según sea necesario */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}

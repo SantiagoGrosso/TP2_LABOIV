@@ -1,0 +1,60 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90vh;
+    margin: 0;
+    background-image: url('../../../assets/fondo.jpg');
+    background-size: cover; /* La imagen se ajustará para cubrir toda la pantalla */
+    background-position: center; /* Centra la imagen de fondo */
+  }
+  
+  .login-container {
+    background-color: #d1a054;
+    width: 300px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px #2e4c6d;
+    text-align: center;
+  }
+  
+  .login-container h2 {
+    color: #2e4c6d;
+    margin-bottom: 20px;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #2e4c6d;
+  }
+  
+  .form-group input {
+    width: calc(100% - 20px);
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #2e4c6d;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  button {
+    background-color: #2e4c6d;
+    color: #d2691e;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #d2691e;
+    color: #2e4c6d;
+  }
+  
