@@ -1,0 +1,76 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: Arial, sans-serif; /* Cambiar la fuente principal */
+  }
+  
+  .especialistas-list {
+    width: 80%;
+    max-width: 800px;
+    margin: 20px;
+    padding: 20px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .especialistas-list h2 {
+    margin-bottom: 15px;
+    font-size: 24px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Cambiar la fuente del título */
+  }
+  
+  .especialistas-list ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .especialistas-list li {
+    margin-bottom: 10px;
+    padding: 15px;
+    background-color: #ffffff;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 2px;
+  }
+  
+  .especialistas-list li div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .especialistas-list li button {
+    padding: 8px 8px;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: #ffffff;
+    transition: background-color 0.3s ease;
+    font-family: 'Roboto', Arial, sans-serif; /* Cambiar la fuente de los botones */
+  }
+  
+  .especialistas-list li button[disabled] {
+    background-color: #6c757d;
+    cursor: not-allowed;
+  }
+  
+  .especialistas-list li button:hover {
+    background-color: #0056b3;
+  }
+  
+  .especialistas-list li p {
+    margin: 3px 0;
+    font-size: 14px;
+    font-family: 'Arial', sans-serif; /* Cambiar la fuente del texto */
+  }
+  
+  .especialistas-list li strong {
+    font-size: 18px;
+    font-weight: bold;
+    font-family: 'Tahoma', Geneva, Verdana, sans-serif; /* Cambiar la fuente de los nombres */
+  }
+  

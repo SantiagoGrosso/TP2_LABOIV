@@ -1,0 +1,23 @@
+<div class="container">
+    <div class="left-panel">
+      <!-- Componente para listar y habilitar/deshabilitar especialistas -->
+      <app-habilitar-especialistas></app-habilitar-especialistas>
+    </div>
+    <div class="right-panel">
+      <!-- Botones para seleccionar el registro de admin, pacientes o especialistas -->
+      <button (click)="showRegistro('admin')">Registrar Admin</button>
+      <button (click)="showRegistro('paciente')">Registrar Paciente</button>
+      <button (click)="showRegistro('especialista')">Registrar Especialista</button>
+  
+      <!-- Componentes para registro -->
+      <ng-container *ngIf="registroSeleccionado === 'admin'">
+        <app-registro-admins></app-registro-admins>
+      </ng-container>
+      <ng-container *ngIf="registroSeleccionado === 'paciente'">
+        <app-registro-pacientes></app-registro-pacientes>
+      </ng-container>
+      <ng-container *ngIf="registroSeleccionado === 'especialista'">
+        <app-registro-especialistas></app-registro-especialistas>
+      </ng-container>
+    </div>
+  </div>

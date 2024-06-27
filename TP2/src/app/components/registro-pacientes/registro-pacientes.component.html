@@ -1,14 +1,14 @@
 <body>
 <div class="register-container">
-  <h2>Registro pacientes</h2>
+  <h2>Registro de pacientes</h2>
   <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
       <label for="nombre">Nombre</label>
       <input type="text" id="nombre" name="nombre" formControlName="nombre" required>
       <div *ngIf="registerForm.get('nombre')?.invalid && (registerForm.get('nombre')?.dirty || registerForm.get('nombre')?.touched)">
         <div *ngIf="registerForm.get('nombre')?.hasError('required')">Nombre es requerido.</div>
-        <div *ngIf="registerForm.get('apellido')?.hasError('noNumbers')">El nombre no debe contener números.</div>
-        <div *ngIf="registerForm.get('apellido')?.hasError('minLength')">El nombre debe tener mínimo 3 caracteres</div>
+        <div *ngIf="registerForm.get('nombre')?.hasError('onlyLetters')">El nombre no debe contener números.</div>
+        <div *ngIf="registerForm.get('nombre')?.hasError('minLength')">El nombre debe tener mínimo 3 caracteres</div>
       </div>
     </div>
 
@@ -17,7 +17,7 @@
       <input type="text" id="apellido" name="apellido" formControlName="apellido" required>
       <div *ngIf="registerForm.get('apellido')?.invalid && (registerForm.get('apellido')?.dirty || registerForm.get('apellido')?.touched)">
         <div *ngIf="registerForm.get('apellido')?.hasError('required')">Apellido es requerido.</div>
-        <div *ngIf="registerForm.get('apellido')?.hasError('noNumbers')">El apellido no debe contener números.</div>
+        <div *ngIf="registerForm.get('apellido')?.hasError('onlyLetters')">El apellido no debe contener números.</div>
         <div *ngIf="registerForm.get('apellido')?.hasError('minLength')">El apellido debe tener mínimo 3 caracteres</div>
       </div>
     </div>
@@ -27,6 +27,9 @@
       <input type="number" id="edad" name="edad" formControlName="edad" required>
       <div *ngIf="registerForm.get('edad')?.invalid && (registerForm.get('edad')?.dirty || registerForm.get('edad')?.touched)">
         <div *ngIf="registerForm.get('edad')?.hasError('required')">Edad es requerida.</div>
+        <div *ngIf="registerForm.get('edad')?.hasError('onlyNumbers')">La edad no debe contener letras.</div>
+        <div *ngIf="registerForm.get('edad')?.hasError('minLength')">Debe tener una edad entre 1-99</div>
+        <div *ngIf="registerForm.get('edad')?.hasError('maxLength')">Debe tener una edad entre 1-99</div>
       </div>
     </div>
 
@@ -35,7 +38,9 @@
       <input type="text" id="dni" name="dni" formControlName="dni" required>
       <div *ngIf="registerForm.get('dni')?.invalid && (registerForm.get('dni')?.dirty || registerForm.get('dni')?.touched)">
         <div *ngIf="registerForm.get('dni')?.hasError('required')">DNI es requerido.</div>
-        <div *ngIf="registerForm.get('dni')?.hasError('pattern')">El DNI debe tener 8 dígitos numéricos.</div>
+        <div *ngIf="registerForm.get('dni')?.hasError('onlyNumbers')">El DNI no debe contener letras.</div>
+        <div *ngIf="registerForm.get('dni')?.hasError('minLength')">Deben ser 8 dígitos</div>
+        <div *ngIf="registerForm.get('dni')?.hasError('maxLength')">Deben ser 8 dígitos</div>
       </div>
     </div>
 

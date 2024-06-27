@@ -1,0 +1,67 @@
+.btnIngreso {
+    margin-bottom: 15px; /* Reducido el espacio entre botones */
+    background-size: cover;
+    background-position: center;
+    width: 90px; /* Reducido el ancho */
+    height: 90px; /* Reducido el alto */
+    border: none;
+    border-radius: 10px;
+    &:hover {
+      filter: brightness(0.7);
+      cursor: pointer;
+      transform: scale(1.09);
+    }
+    color: #d2691e;
+    font-weight: bold;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 5px; /* Añade un espacio interno */
+  }
+  
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 90vh;
+  }
+  
+  .ingreso-rapido-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .btn {
+    margin-bottom: 3px; /* Espacio reducido entre botones */
+    margin-left: 10px;
+  }
+  
+
+  .btnAdmin {
+    background-image: url('../../../assets/paul.jpg');
+  }
+  
+  .btnPac1 {
+    background-image: url('../../../assets/feyd.jpg');
+  }
+  
+  .btnPac2 {
+    background-image: url('../../../assets/rabban.jpg');
+  }
+  
+  .btnPac3 {
+    background-image: url('../../../assets/harkonnen.jpg');
+  }
+  
+  .btnEsp1 {
+    background-image: url('../../../assets/chani.jpg');
+  }
+  
+  .btnEsp2 {
+    background-image: url('../../../assets/stilgar.jpg');
+  }
+  

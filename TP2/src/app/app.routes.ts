@@ -5,6 +5,10 @@ import { RegistroComponent } from './components/registro/registro.component';
 import { RegistroEspecialistasComponent } from './components/registro-especialistas/registro-especialistas.component';
 import { RegistroPacientesComponent } from './components/registro-pacientes/registro-pacientes.component';
 import { EspecialidadesComponent } from './components/especialidades/especialidades.component';
+import { BotonesInicioComponent } from './components/botones-inicio/botones-inicio.component';
+import { SeccionUsuariosComponent } from './components/seccion-usuarios/seccion-usuarios.component';
+import { RegistroAdminsComponent } from './components/registro-admins/registro-admins.component';
+import { HabilitarEspecialistasComponent } from './components/habilitar-especialistas/habilitar-especialistas.component';
 
 export const routes: Routes = [
     {
@@ -34,5 +38,21 @@ export const routes: Routes = [
     {
         path:"especialidades",
         component: EspecialidadesComponent
+    },
+    {
+        path:"botones",
+        component: BotonesInicioComponent
+    },
+    {
+        path:"seccion-usuarios",
+        component: SeccionUsuariosComponent
+    },
+    {
+        path:"registro_admins",
+        component: RegistroAdminsComponent
+    },
+    {
+        path:"habilitar-especialistas",
+        component: HabilitarEspecialistasComponent
     },
 ];

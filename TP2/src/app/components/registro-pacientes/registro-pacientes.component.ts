@@ -6,6 +6,7 @@ import { Paciente } from '../../classes/paciente';
 import { NgClass, NgIf } from '@angular/common';
 import { CustomValidators } from '../../validators/custom-validators';
 import { DataService } from '../../services/data.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-registro-pacientes',
@@ -30,10 +31,10 @@ export class RegistroPacientesComponent {
   ) {
     // Inicialización del FormGroup y definición de los controles
     this.registerForm = this.formBuilder.group({
-      nombre: ['', [Validators.required, CustomValidators.noNumbers, CustomValidators.minLength(3)]],
-      apellido: ['', [Validators.required, CustomValidators.noNumbers, CustomValidators.minLength(3)]],
-      dni: ['', [Validators.required, Validators.pattern("[0-9]{8}")]],
-      edad: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
+      nombre: ['', [Validators.required, CustomValidators.onlyLetters, CustomValidators.minLength(3)]],
+      apellido: ['', [Validators.required, CustomValidators.onlyLetters, CustomValidators.minLength(3)]],
+      dni: ['', [Validators.required, CustomValidators.onlyNumbers, CustomValidators.maxLength(8), CustomValidators.minLength(8)]],
+      edad: ['', [Validators.required, CustomValidators.onlyNumbers, CustomValidators.maxLength(1), CustomValidators.minLength(2)]],
       obraSocial: ['', Validators.required],
       mail: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
@@ -51,10 +52,21 @@ export class RegistroPacientesComponent {
       try {
         const pacienteId = await this.auth.guardarPaciente(paciente, password);
         console.log('Paciente registrado con ID: ', pacienteId);
-        this.router.navigate(['/exito']);
+        Swal.fire({
+          position: "top-right",
+          icon: "success",
+          title: "Te has registrado correctamente",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       } catch (error) {
-        console.error('Error al registrar el paciente: ', error);
-        // Manejar error, mostrar mensaje al usuario, etc.
+        Swal.fire({
+          position: "top-left",
+          icon: "error",
+          title: "Error al registrarte",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       }
     } else {
       // Marcar controles como tocados para mostrar errores de validación

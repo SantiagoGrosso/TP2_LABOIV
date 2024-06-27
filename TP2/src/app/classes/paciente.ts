@@ -2,7 +2,7 @@ export class Paciente {
     nombre : any;
     apellido : any; 
     edad : any;
-    DNI : any;
+    dni : any;
     obraSocial : any;
     mail : any;
     password : any;
@@ -12,7 +12,7 @@ export class Paciente {
     constructor(nombre : any,
         apellido : any,
         edad : any,
-        DNI : any,
+        dni : any,
         obraSocial : any,
         mail : any,
         password : any,
@@ -22,7 +22,7 @@ export class Paciente {
         this.nombre = nombre
         this.apellido = apellido
         this.edad = edad
-        this.DNI = DNI
+        this.dni = dni
         this.obraSocial = obraSocial
         this.mail = mail
         this.password = password

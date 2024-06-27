@@ -1,0 +1,64 @@
+body{
+    height: 100%;
+    margin: 0;
+    font-family: 'Dune_Rise';
+    display: flex;
+    background-image: url('../../../assets/fondoRegistro.jpg');
+    background-size: cover; /* La imagen se ajustará para cubrir toda la pantalla */
+    background-position: center; /* Centra la imagen de fondo */
+    height: 90vh;
+}
+
+.register-container {
+    max-width: 400px;
+    margin: 10px auto;
+    padding: 20px;
+    border: 1px solid #2e4c6D;
+    border-radius: 10px;
+    background-color: #d1a054;
+  }
+  
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color:#2e4c6D;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+    color: #2e4c6D;
+  }
+  
+  input[type="text"],
+  input[type="number"],
+  input[type="email"],
+  input[type="password"],
+  input[type="file"] {
+    width: 100%;
+    padding: 3px;
+    box-sizing: border-box;
+    color:#2e4c6D;
+  }
+  
+  button {
+    width: 100%;
+    padding: 10px;
+    background-color: #d2691e;
+    color: #2e4c6D;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  button[disabled] {
+    background-color: #2e4c6D;
+    cursor: not-allowed;
+    color: #d2691e;
+  }
+  

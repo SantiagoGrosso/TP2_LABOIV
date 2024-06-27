@@ -1,24 +1,23 @@
+import { NgClass, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { Especialista } from '../../classes/especialista';
-import { NgClass, NgIf } from '@angular/common';
-import { CustomValidators } from '../../validators/custom-validators';
 import { DataService } from '../../services/data.service';
+import { CustomValidators } from '../../validators/custom-validators';
 import Swal from 'sweetalert2';
-import { EspecialidadesComponent } from "../especialidades/especialidades.component";
 
 @Component({
-  selector: 'app-registro-especialistas',
+  selector: 'app-registro-admins',
   standalone: true,
-  templateUrl: './registro-especialistas.component.html',
-  styleUrls: ['./registro-especialistas.component.css'],
-  imports: [FormsModule, NgClass, NgIf, ReactiveFormsModule, EspecialidadesComponent]
+  imports: [FormsModule, NgClass, NgIf, ReactiveFormsModule],
+  templateUrl: './registro-admins.component.html',
+  styleUrl: './registro-admins.component.css'
 })
-export class RegistroEspecialistasComponent {
+export class RegistroAdminsComponent {
 
-  profileImage: File | null = null;
+  profileImages: File[] = [];
+  vieneDeRegistro: boolean = false;
 
   // Definición del FormGroup
   registerForm: FormGroup;
@@ -35,22 +34,20 @@ export class RegistroEspecialistasComponent {
       apellido: ['', [Validators.required, CustomValidators.onlyLetters, CustomValidators.minLength(3)]],
       dni: ['', [Validators.required, CustomValidators.onlyNumbers, CustomValidators.maxLength(8), CustomValidators.minLength(8)]],
       edad: ['', [Validators.required, CustomValidators.onlyNumbers, CustomValidators.maxLength(1), CustomValidators.minLength(2)]],
-      especialidad: ['', Validators.required],
       mail: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
       foto1: ['', Validators.required],
     });
   }
 
-  // Método para registrar el especialista
   async onSubmit() {
     if (this.registerForm && this.registerForm.valid) {
-      const especialista = this.registerForm.value;
+      const admin = this.registerForm.value;
       const password = this.registerForm.value.password;
   
       try {
-        const especialistaId = await this.auth.guardarEspecialista(especialista, password);
-        console.log('Especialista registrado con ID: ', especialistaId);
+        const adminId = await this.auth.guardarAdmin(admin, password);
+        console.log('Admin registrado con ID: ', adminId);
         Swal.fire({
           position: "top-right",
           icon: "success",
@@ -59,7 +56,7 @@ export class RegistroEspecialistasComponent {
           timer: 1500,
         });
       } catch (error) {
-        console.error('Error al registrar el especialista:', error);
+        console.error('Error al registrar admin:', error);
         Swal.fire({
           position: "top-left",
           icon: "error",
@@ -73,7 +70,6 @@ export class RegistroEspecialistasComponent {
       this.markFormGroupTouched(this.registerForm);
     }
   }
-  
 
   markFormGroupTouched(formGroup: FormGroup) {
     Object.values(formGroup.controls).forEach(control => {
@@ -82,15 +78,11 @@ export class RegistroEspecialistasComponent {
   }
 
   // Método para manejar cambio de archivos de imagen
-  onFileChange(event: any) {
+  onFileChange(event: any, index: number) {
     const file = event.target.files[0];
     if (file) {
-      // Asignar archivo al control correspondiente
-      this.registerForm.patchValue({ foto1: file });
+      // Asignar archivo al control correspondiente según el índice
+      this.registerForm.patchValue({ [`foto${index}`]: file });
     }
-  }
-
-  public recibirEspecialidad(especialidad: string) {
-    this.registerForm.controls['especialidad'].setValue(especialidad);
   }
 }

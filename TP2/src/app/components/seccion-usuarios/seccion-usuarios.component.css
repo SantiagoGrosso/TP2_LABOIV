@@ -1,0 +1,11 @@
+.container {
+    display: flex;
+    justify-content: center; /* Centra los elementos horizontalmente */
+    align-items: center; /* Centra los elementos verticalmente */
+  }
+  
+  .panel {
+    width: 50%; /* Cada panel ocupa el 50% del contenedor */
+    padding: 10px;
+    border: 1px solid #ccc;
+  }
