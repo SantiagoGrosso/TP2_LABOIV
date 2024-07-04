@@ -1,3 +1,4 @@
+
 <div class="container">
     <div class="especialistas-list">
       <div>
@@ -5,7 +6,7 @@
         <ul>
           <li *ngFor="let administrador of administradores">
             <div>
-              <strong>{{ administrador.nombre }} {{ administrador.apellido }}</strong>
+              <strong class="nombre-apellido">{{ administrador.nombre }} {{ administrador.apellido }}</strong>
               <p>Edad: {{ administrador.edad }}</p>
               <p>DNI: {{ administrador.DNI }}</p>
               <p>Mail: {{ administrador.mail }}</p>
@@ -17,11 +18,13 @@
       <h2>Listado de especialistas</h2>
       <ul>
         <li *ngFor="let especialista of especialistas">
-          <div>
-            <strong>{{ especialista.nombre }} {{ especialista.apellido }}</strong>
+          <div class="especialista-details">
+            <strong class="nombre-apellido">{{ especialista.nombre }} {{ especialista.apellido }}</strong>
             <p>Edad: {{ especialista.edad }}</p>
             <p>DNI: {{ especialista.DNI }}</p>
             <p>Mail: {{ especialista.mail }}</p>
+          </div>
+          <div class="especialista-button">
             <p>Habilitado: {{ especialista.habilitado ? 'Sí' : 'No' }}</p>
             <button (click)="toggleHabilitado(especialista.id, especialista.habilitado)" [disabled]="especialista.habilitado">
               {{ especialista.habilitado ? 'Habilitado' : 'Habilitar' }}
@@ -34,7 +37,7 @@
         <ul>
           <li *ngFor="let paciente of pacientes">
             <div>
-              <strong>{{ paciente.nombre }} {{ paciente.apellido }}</strong>
+              <strong class="nombre-apellido">{{ paciente.nombre }} {{ paciente.apellido }}</strong>
               <p>Edad: {{ paciente.edad }}</p>
               <p>DNI: {{ paciente.DNI }}</p>
               <p>Mail: {{ paciente.mail }}</p>

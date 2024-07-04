@@ -1,0 +1,242 @@
+/* Estilos generales */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 150vh;
+    margin: 0;
+    background-image: url('../../../assets/fondo-perfil.jpg');
+    background-size: cover; /* La imagen se ajustará para cubrir toda la pantalla */
+    background-position: center; /* Centra la imagen de fondo */
+  }
+  
+  .content-wrapper {
+    background-color: rgba(209, 160, 84, 0.7); /* Fondo blanco semi-transparente */
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 900px;
+    width: 100%;
+    margin: 20px 20px 20px 20px; /* Ajuste de margen superior */
+    box-sizing: border-box;
+  }
+  
+  /* Estilos específicos para contenedores de contenido */
+  .specialists-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .specialist-card {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    text-align: center;
+  }
+  
+  .specialist-card button {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #2e4c6d;
+    border-radius: 8px;
+    padding: 0;
+    background-color: #2e4c6d;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .specialist-card button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .specialist-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+  
+  .specialist-card p {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    margin: 0;
+    font-size: 14px;
+    color: #2e4c6d;
+    background-color: rgba(255, 255, 255, 0.6); /* Fondo semi-transparente */
+    padding: 5px;
+    box-sizing: border-box;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+  }
+  
+  .selected-specialist-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .selected-specialist {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .selected-specialist img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+    border: 3px solid #2e4c6d;
+  }
+  
+  .selected-specialist p {
+    font-size: 16px;
+    margin: 10px 0;
+  }
+  
+  .selected-specialist button {
+    margin-top: 10px;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    background-color: #2e4c6d;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+  }
+  
+  .selected-specialist button:hover {
+    background-color: #132d49;
+    transform: translateY(-2px);
+  }
+  
+  .specialties-container {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .specialties-container p {
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  .specialty-card {
+    margin-top: 10px;
+  }
+  
+  .specialty-card button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #2e4c6d;
+    border-radius: 8px;
+    background-color: #3e546b;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
+    padding: 10px;
+    height: 100px; /* Ajusta la altura según sea necesario */
+    overflow: hidden;
+    color: white;
+  }
+  
+  .specialty-card button:hover {
+    background-color: #2e4c6d;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .specialty-card button img {
+    width: 50px; /* Ajusta el tamaño de la imagen según sea necesario */
+    height: 50px;
+    object-fit: cover;
+    margin-right: 10px;
+  }
+  
+  .specialty-image {
+    width: 40px; /* Ajusta el tamaño de la imagen según sea necesario */
+    height: 40px;
+    object-fit: cover;
+    margin-right: 10px;
+  }
+  
+  .available-days-container, .horarios-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .available-days-container p, .horarios-container p {
+    font-size: 18px;
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  
+  .day-card, .horario-card {
+    margin-top: 10px;
+  }
+  
+  .day-card button, .horario-card button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #2e4c6d;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .day-card button:hover, .horario-card button:hover {
+    background-color: #132d49;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .save-turno-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .save-turno-container button {
+    padding: 12px 24px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #2e4c6d;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .save-turno-container button:hover {
+    background-color: #132d49;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .save-turno-container button:active {
+    background-color: #132d49;
+    transform: translateY(0);
+    box-shadow: none;
+  }
+  

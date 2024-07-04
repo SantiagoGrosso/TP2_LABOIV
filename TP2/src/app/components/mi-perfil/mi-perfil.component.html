@@ -1,0 +1,46 @@
+<body>
+  <div class="app-container">
+    <div class="user-profile" *ngIf="user$ | async as user">
+      <div *ngIf="user?.role === 'admin'">
+        <img alt="Usuario" [src]="user?.data?.foto1"/>
+        <p>Nombre: {{ user?.data?.nombre }}</p>
+        <p>Apellido: {{ user?.data?.apellido }}</p>
+        <p>DNI: {{ user?.data?.DNI }}</p>
+        <p>Correo: {{ user?.data?.mail }}</p>
+        <p>Edad: {{ user?.data?.edad }}</p>
+        <!-- Muestra más información según sea necesario -->
+      </div>
+      
+      <div *ngIf="user?.role === 'especialista'">
+        <img alt="Usuario" [src]="user?.data?.foto1"/>
+        <p>Nombre: {{ user?.data?.nombre }}</p>
+        <p>Apellido: {{ user?.data?.apellido }}</p>
+        <p>DNI: {{ user?.data?.DNI }}</p>
+        <p>Correo: {{ user?.data?.mail }}</p>
+        <p>Edad: {{ user?.data?.edad }}</p>
+        <p>Especialidad: {{ user?.data?.especialidad }}</p>
+        <!-- Botones para seleccionar horarios -->
+        <div>
+          <label>
+            <input type="checkbox" (change)="toggleHorario('mañana', $event)" /> Mañana
+          </label>
+          <label>
+            <input type="checkbox" (change)="toggleHorario('tarde', $event)" /> Tarde
+          </label>
+          <button (click)="guardarHorarios()">Guardar Horarios</button>
+        </div>
+      </div>
+
+      <div *ngIf="user?.role === 'paciente'">
+        <img alt="Usuario" [src]="user?.data?.foto1"/>
+        <p>Nombre: {{ user?.data?.nombre }}</p>
+        <p>Apellido: {{ user?.data?.apellido }}</p>
+        <p>DNI: {{ user?.data?.DNI }}</p>
+        <p>Correo: {{ user?.data?.mail }}</p>
+        <p>Edad: {{ user?.data?.edad }}</p>
+        <p>Obra social: {{ user?.data?.obraSocial }}</p>
+        <!-- Muestra más información según sea necesario -->
+      </div>
+    </div>
+  </div>
+</body>

@@ -47,9 +47,10 @@ export class RegistroEspecialistasComponent {
     if (this.registerForm && this.registerForm.valid) {
       const especialista = this.registerForm.value;
       const password = this.registerForm.value.password;
-  
+      const horarios: string[] = []; // Define y obtén los horarios seleccionados desde tu interfaz
+
       try {
-        const especialistaId = await this.auth.guardarEspecialista(especialista, password);
+        const especialistaId = await this.auth.guardarEspecialista(especialista, password, horarios); // Envía los horarios seleccionados al servicio
         console.log('Especialista registrado con ID: ', especialistaId);
         Swal.fire({
           position: "top-right",

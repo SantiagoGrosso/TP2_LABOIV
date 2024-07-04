@@ -1,26 +1,24 @@
-.login__field
-{
+.login__field {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.login-input
-{
+    flex-direction: column; /* Cambia la dirección del flex a columna para organizarlos verticalmente */
+    justify-content: flex-start; /* Alinea los elementos al principio del contenedor */
+    align-items: stretch; /* Estira los elementos a lo largo del contenedor */
+  }
+  
+  .login-input {
     border: none;
     padding: 10px;
-    border: 1px solid #2e4c6D;
+    border: 1px solid #2e4c6d;
     outline: none;
     border-radius: 5px;
     background: none;
     margin-bottom: 10px;
     width: 100%;
-}
-
-button
-{
-    border: 1px solid #2e4c6D;;
-    background-color: #2e4c6D;
+  }
+  
+  button {
+    border: 1px solid #2e4c6d;
+    background-color: #2e4c6d;
     border-radius: 8px;
     width: 50px; /* Ajusta el ancho según sea necesario */
     height: 35px; /* Ajusta la altura según sea necesario */
@@ -28,4 +26,4 @@ button
     border-radius: 4px;
     cursor: pointer;
     margin-bottom: 10px;
-}
+  }

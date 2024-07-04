@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, map, of, switchMap } from 'rxjs';
 import { DataService } from './data.service';
-import { sendEmailVerification } from '@angular/fire/auth';
+import { User, getAuth, sendEmailVerification } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Paciente } from '../classes/paciente';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
@@ -15,122 +15,191 @@ import { Admin } from '../classes/admin';
 })
 export class AuthService {
 
-  public usuarioLogueado: any = null;
   public esAdmin: boolean = false;
   public esEspecialista: boolean = false;
   public esPaciente: boolean = false;
-  public uid: string = "";
-  private usuariosChanged = new Subject<void>();
-  public mailSinConfirmar: string = "";
-  public isLoading: boolean = false;
+  user$: Observable<any>;
+  isLoggedIn$: Observable<boolean>;
 
-  constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore, private afStorage: AngularFireStorage, private router: Router) { }
+  private roleSubject = new BehaviorSubject<{ esAdmin: boolean, esEspecialista: boolean, esPaciente: boolean }>({
+    esAdmin: false,
+    esEspecialista: false,
+    esPaciente: false
+  });
+
+  public role$: Observable<{ esAdmin: boolean, esEspecialista: boolean, esPaciente: boolean }> = this.roleSubject.asObservable();
+
+  constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore, private afStorage: AngularFireStorage, private router: Router) { 
+    this.user$ = this.afAuth.authState.pipe(
+      switchMap(user => {
+        if (user) {
+          return of(user);
+        } else {
+          return of(null);
+        }
+      })
+    );
+
+    this.isLoggedIn$ = this.user$.pipe(map(user => !!user));
+  }
 
   async guardarPaciente(paciente: Paciente, password: string): Promise<string> {
     try {
-      // Registrar el usuario en Firebase Authentication
-      const credential = await this.afAuth.createUserWithEmailAndPassword(paciente.mail, password);
-
-      if (credential && credential.user) {
-        // Guardar las imágenes en Firebase Storage y obtener las URLs de descarga
-        const foto1Url = await this.uploadFileAndGetUrl(paciente.foto1, credential.user.uid, 'foto1');
-        const foto2Url = await this.uploadFileAndGetUrl(paciente.foto2, credential.user.uid, 'foto2');
-
-        // Agregar los datos del paciente a Firestore con las URLs de las imágenes
-        await this.afs.collection('pacientes').doc(credential.user.uid).set({
-          nombre: paciente.nombre || '',
-          apellido: paciente.apellido || '',
-          edad: paciente.edad || '',
-          DNI: paciente.dni || '',
-          obraSocial: paciente.obraSocial || '',
-          mail: paciente.mail || '',
-          foto1: foto1Url || '',
-          foto2: foto2Url || '',
-        });
-
-        // Retornar el ID del usuario creado
-        return credential.user.uid;
-      } else {
-        throw new Error('No se pudo crear el usuario');
-      }
-    } catch (error) {
-      console.error('Error al guardar el paciente en Firestore:', error);
-      throw error;
-    }
-  }
-
-  async guardarEspecialista(especialista: Especialista, password: string): Promise<string> {
-    try {
         // Registrar el usuario en Firebase Authentication
-        const credential = await this.afAuth.createUserWithEmailAndPassword(especialista.mail, password);
+        const credential = await this.afAuth.createUserWithEmailAndPassword(paciente.mail, password);
+        let user = credential.user;
 
         if (credential && credential.user) {
-            // Guardar la imagen en Firebase Storage y obtener la URL de descarga
-            const foto1Url = await this.uploadFileAndGetUrl(especialista.foto1, credential.user.uid, 'foto1');
+            // Guardar las imágenes en Firebase Storage y obtener las URLs de descarga
+            const foto1Url = await this.uploadFileAndGetUrl(paciente.foto1, credential.user.uid, 'foto1');
+            const foto2Url = await this.uploadFileAndGetUrl(paciente.foto2, credential.user.uid, 'foto2');
 
-            // Agregar los datos del especialista a Firestore con la URL de la imagen
-            await this.afs.collection('especialistas').doc(credential.user.uid).set({
-                nombre: especialista.nombre || '',
-                apellido: especialista.apellido || '',
-                edad: especialista.edad || '',
-                DNI: especialista.dni || '',
-                especialidad: especialista.especialidad || '',
-                mail: especialista.mail || '',
+            // Agregar los datos del paciente a Firestore con las URLs de las imágenes
+            await this.afs.collection('pacientes').doc(credential.user.uid).set({
+                nombre: paciente.nombre || '',
+                apellido: paciente.apellido || '',
+                edad: paciente.edad || '',
+                DNI: paciente.dni || '',
+                obraSocial: paciente.obraSocial || '',
+                mail: paciente.mail || '',
                 foto1: foto1Url || '',
-                habilitado: false
+                foto2: foto2Url || '',
             });
+
+            // Enviar verificación de correo
+            if (user != null) {
+                await user.sendEmailVerification();
+            }
 
             // Retornar el ID del usuario creado
             return credential.user.uid;
         } else {
             throw new Error('No se pudo crear el usuario');
         }
+      } catch (error) {
+          console.error('Error al guardar el paciente en Firestore:', error);
+          throw error;
+      }
+  }
+
+  async guardarEspecialista(especialista: Especialista, password: string, horarios: string[]): Promise<string> {
+    try {
+      // Registrar el usuario en Firebase Authentication
+      const credential = await this.afAuth.createUserWithEmailAndPassword(especialista.mail, password);
+      const user = credential.user;
+
+      if (user) {
+        // Guardar la imagen en Firebase Storage y obtener la URL de descarga
+        const foto1Url = await this.uploadFileAndGetUrl(especialista.foto1, user.uid, 'foto1');
+
+        // Agregar los datos del especialista a Firestore con la URL de la imagen y los horarios
+        await this.afs.collection('especialistas').doc(user.uid).set({
+          nombre: especialista.nombre || '',
+          apellido: especialista.apellido || '',
+          edad: especialista.edad || '',
+          DNI: especialista.dni || '',
+          especialidad: especialista.especialidad || '',
+          mail: especialista.mail || '',
+          foto1: foto1Url || '',
+          habilitado: false,
+          horarios: horarios || [] // Guardar los horarios recibidos
+        });
+
+        // Enviar verificación de correo
+        await user.sendEmailVerification();
+
+        // Retornar el ID del usuario creado
+        return user.uid;
+      } else {
+        throw new Error('No se pudo crear el usuario');
+      }
     } catch (error) {
-        console.error('Error al guardar el especialista en Firestore:', error);
-        throw error;
+      console.error('Error al guardar el especialista en Firestore:', error);
+      throw error;
     }
-}
+  }
 
 async guardarAdmin(admin: Admin, password: string): Promise<string> {
   try {
-    // Registrar el usuario en Firebase Authentication
-    const credential = await this.afAuth.createUserWithEmailAndPassword(admin.mail, password);
+      // Registrar el usuario en Firebase Authentication
+      const credential = await this.afAuth.createUserWithEmailAndPassword(admin.mail, password);
+      let user = credential.user;
 
-    if (credential && credential.user) {
-      // Guardar la imagen en Firebase Storage y obtener la URL de descarga
-      const fotoUrl = await this.uploadFileAndGetUrl(admin.foto1, credential.user.uid, 'foto1');
+      if (credential && credential.user) {
+          // Guardar la imagen en Firebase Storage y obtener la URL de descarga
+          const fotoUrl = await this.uploadFileAndGetUrl(admin.foto1, credential.user.uid, 'foto1');
 
-      // Agregar los datos del admin a Firestore con la URL de la imagen
-      await this.afs.collection('administradores').doc(credential.user.uid).set({
-        nombre: admin.nombre || '',
-        apellido: admin.apellido || '',
-        edad: admin.edad || '',
-        DNI: admin.dni || '',
-        mail: admin.mail || '',
-        foto1: fotoUrl || '',
-      });
+          // Agregar los datos del admin a Firestore con la URL de la imagen
+          await this.afs.collection('administradores').doc(credential.user.uid).set({
+              nombre: admin.nombre || '',
+              apellido: admin.apellido || '',
+              edad: admin.edad || '',
+              DNI: admin.dni || '',
+              mail: admin.mail || '',
+              foto1: fotoUrl || '',
+          });
 
-      // Retornar el ID del usuario creado
-      return credential.user.uid;
-    } else {
-      throw new Error('No se pudo crear el usuario');
-    }
+          // Enviar verificación de correo
+          if (user != null) {
+              await user.sendEmailVerification();
+          }
+
+          // Retornar el ID del usuario creado
+          return credential.user.uid;
+      } else {
+          throw new Error('No se pudo crear el usuario');
+      }
   } catch (error) {
-    console.error('Error al guardar el admin en Firestore:', error);
-    throw error;
+      console.error('Error al guardar el admin en Firestore:', error);
+      throw error;
   }
 }
 
 async login(email: string, password: string): Promise<void> {
   try {
-    await this.afAuth.signInWithEmailAndPassword(email, password);
-    // Redirigir a la página de inicio luego de iniciar sesión
+    const credential = await this.afAuth.signInWithEmailAndPassword(email, password);
+    const user = credential.user;
+
+    if (user) {
+      // Verificar si el correo electrónico está verificado
+      if (!user.emailVerified) {
+        await this.afAuth.signOut();
+        throw new Error('Email no verificado');
+      }
+
+      this.esAdmin = false;
+      this.esEspecialista = false;
+      this.esPaciente = false;
+
+      const adminDoc = await this.afs.collection('administradores').doc(user.uid).ref.get();
+      if (adminDoc.exists) {
+        this.esAdmin = true;
+      } else {
+        const especialistaDoc = await this.afs.collection('especialistas').doc(user.uid).ref.get();
+        if (especialistaDoc.exists) {
+          this.esEspecialista = true;
+        } else {
+          const pacienteDoc = await this.afs.collection('pacientes').doc(user.uid).ref.get();
+          if (pacienteDoc.exists) {
+            this.esPaciente = true;
+          }
+        }
+      }
+
+      this.roleSubject.next({
+        esAdmin: this.esAdmin,
+        esEspecialista: this.esEspecialista,
+        esPaciente: this.esPaciente
+      });
+    }
+
     this.router.navigate(['/']);
   } catch (error) {
     console.error('Error al iniciar sesión:', error);
     throw error;
   }
 }
+
 
 async logout(): Promise<void> {
   try {
@@ -166,9 +235,12 @@ async logout(): Promise<void> {
     }
   }
 
-  getCurrentUser() {
-    return this.afAuth.currentUser;
+  async getCurrentUser(): Promise<User | null> {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    return user;
   }
+
 
   async getEspecialistaData(uid: string): Promise<any> {
     try {
@@ -242,5 +314,96 @@ async logout(): Promise<void> {
       throw error;
     }
   }
+
+  async getUserRole(uid: string): Promise<{ role: string, data: any }> {
+    // Verificar en la colección de administradores
+    const adminDoc = await this.afs.collection('administradores').doc(uid).ref.get();
+    if (adminDoc.exists) {
+      return { role: 'admin', data: adminDoc.data() };
+    }
   
+    // Verificar en la colección de especialistas
+    const especialistaDoc = await this.afs.collection('especialistas').doc(uid).ref.get();
+    if (especialistaDoc.exists) {
+      return { role: 'especialista', data: especialistaDoc.data() };
+    }
+  
+    // Verificar en la colección de pacientes
+    const pacienteDoc = await this.afs.collection('pacientes').doc(uid).ref.get();
+    if (pacienteDoc.exists) {
+      return { role: 'paciente', data: pacienteDoc.data() };
+    }
+  
+    throw new Error('Usuario no encontrado en ninguna colección');
+  }
+  
+  getCurrentUserData(): Observable<any> {
+    return this.afAuth.authState.pipe(
+      switchMap(user => {
+        if (user) {
+          const uid = user.uid;
+
+          // Intentar obtener el usuario de la colección de administradores
+          return this.afs.doc(`administradores/${uid}`).valueChanges().pipe(
+            switchMap(admin => {
+              if (admin) {
+                return of({ role: 'admin', data: admin });
+              } else {
+                // Intentar obtener el usuario de la colección de especialistas
+                return this.afs.doc(`especialistas/${uid}`).valueChanges().pipe(
+                  switchMap(especialista => {
+                    if (especialista) {
+                      return of({ role: 'especialista', data: especialista });
+                    } else {
+                      // Intentar obtener el usuario de la colección de pacientes
+                      return this.afs.doc(`pacientes/${uid}`).valueChanges().pipe(
+                        switchMap(paciente => {
+                          if (paciente) {
+                            return of({ role: 'paciente', data: paciente });
+                          } else {
+                            // Si no se encuentra en ninguna colección, retornar null
+                            return of(null);
+                          }
+                        })
+                      );
+                    }
+                  })
+                );
+              }
+            })
+          );
+        } else {
+          // Si no hay un usuario autenticado, retornar null
+          return of(null);
+        }
+      })
+    );
+  }
+
+  async isTurnoTaken(specialistId: string, date: Date, time: Date): Promise<boolean> {
+    const startOfTurno = new Date(date);
+    startOfTurno.setHours(time.getHours(), time.getMinutes(), 0, 0);
+
+    const endOfTurno = new Date(startOfTurno);
+    endOfTurno.setMinutes(startOfTurno.getMinutes() + 30);
+
+    const turnos = await this.afs.collection('turnos', ref =>
+      ref.where('especialista', '==', specialistId)
+        .where('turno', '==', startOfTurno)
+    ).get().toPromise();
+
+    return !turnos?.empty;
+  }
+
+  saveTurno(turno: { specialistId: string; specialty: string; date: Date; time: Date; pacienteId: string }) {
+    const turnoData = {
+      especialista: turno.specialistId,
+      especialidad: turno.specialty,
+      turno: turno.time,
+      creado: new Date(),
+      pacienteId: turno.pacienteId
+    };
+    return this.afs.collection('turnos').add(turnoData);
+  }
+
 }

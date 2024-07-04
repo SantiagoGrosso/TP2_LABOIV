@@ -8,17 +8,18 @@
   
   .especialistas-list {
     width: 80%;
-    max-width: 800px;
+    max-width: 700px;
     margin: 20px;
-    padding: 20px;
-    background-color: #f0f0f0;
+    padding: 10px;
+    background-color: #d1a054;
     border-radius: 5px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: #2e4c6D;
   }
   
   .especialistas-list h2 {
-    margin-bottom: 15px;
-    font-size: 24px;
+    margin-bottom: 10px;
+    font-size: 18px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Cambiar la fuente del título */
   }
   
@@ -47,30 +48,40 @@
     border: none;
     border-radius: 2px;
     cursor: pointer;
-    background-color: #007bff;
-    color: #ffffff;
+    background-color: #d2691e;
+    color: #2e4c6D;
     transition: background-color 0.3s ease;
-    font-family: 'Roboto', Arial, sans-serif; /* Cambiar la fuente de los botones */
+    font-family: 'Roboto', Arial, sans-serif;
+    margin-top: 10px;
   }
   
   .especialistas-list li button[disabled] {
-    background-color: #6c757d;
+    background-color: #2e4c6D;
     cursor: not-allowed;
+    color: #d2691e;
   }
   
   .especialistas-list li button:hover {
-    background-color: #0056b3;
+    background-color: #2e4c6D;
+    color:#d2691e;
   }
   
   .especialistas-list li p {
-    margin: 3px 0;
+    margin: 2px 0;
     font-size: 14px;
     font-family: 'Arial', sans-serif; /* Cambiar la fuente del texto */
+    color:#2e4c6D;
   }
   
   .especialistas-list li strong {
-    font-size: 18px;
+    font-size: 15px;
     font-weight: bold;
     font-family: 'Tahoma', Geneva, Verdana, sans-serif; /* Cambiar la fuente de los nombres */
+  }
+
+  .nombre-apellido {
+    font-weight: bold; /* Cambia el peso de la fuente a negrita */
+    font-size: 20px; /* Ajusta el tamaño de la fuente según sea necesario */
+    color: #d2691e; /* Cambia el color del texto */
   }
   

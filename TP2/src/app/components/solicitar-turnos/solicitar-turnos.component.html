@@ -1,0 +1,65 @@
+<body>
+    <div class="content-wrapper">
+      <div *ngIf="!selectedSpecialist" class="specialists-container">
+        <div *ngFor="let specialist of specialists" class="specialist-card">
+          <button (click)="selectSpecialist(specialist)">
+            <img [src]="specialist.foto1" alt="{{specialist.nombre}} {{specialist.apellido}}">
+            <p>{{specialist.nombre}} {{specialist.apellido}}</p>
+          </button>
+        </div>
+      </div>
+      
+      <div *ngIf="selectedSpecialist" class="selected-specialist-container">
+        <div class="selected-specialist">
+          <img [src]="selectedSpecialist.foto1" alt="{{selectedSpecialist.nombre}} {{selectedSpecialist.apellido}}">
+          <p>{{selectedSpecialist.nombre}} {{selectedSpecialist.apellido}}</p>
+          <button (click)="deselectSpecialist()">Cambiar especialista</button>
+          <p>Especialidades:</p>
+        </div>
+        <div class="specialties-container">
+          <div class="specialty-card" *ngFor="let especialidad of selectedSpecialist.especialidad">
+            <button (click)="selectSpecialty(especialidad)">
+              <img [src]="getEspecialidadImage(especialidad)" alt="{{ especialidad }}" class="specialty-image">
+              <span>{{ especialidad }}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    
+      <div *ngIf="selectedSpecialty" class="available-days-container">
+        <p>Días disponibles para {{ selectedSpecialty }}:</p>
+        <div *ngFor="let day of availableDays" class="day-card">
+          <button (click)="selectDay(day)">
+            {{ formatDate(day, 'EEEE, d MMMM yyyy') }}
+          </button>
+        </div>
+      </div>
+    
+      <div *ngIf="selectedDay" class="horarios-container">
+        <p>Horarios disponibles para {{ selectedSpecialty }} el {{ formatDate(selectedDay, 'EEEE, d MMMM yyyy') }}:</p>
+        <div *ngFor="let horario of horariosDisponibles" class="horario-card">
+          <button (click)="selectHorario(horario)">
+            {{ formatDate(horario, 'HH:mm') }}
+          </button>
+        </div>
+      </div>
+  
+      <div *ngIf="isAdmin" class="select-paciente-container">
+        <p>Selecciona un paciente:</p>
+        <div *ngFor="let paciente of pacientes" class="paciente-card">
+          <button (click)="selectedPaciente = paciente">
+            {{ paciente.nombre }} {{ paciente.apellido }}
+          </button>
+        </div>
+      </div>
+      
+      <div *ngIf="selectedHorario" class="save-turno-container">
+        <button (click)="saveTurno()">Guardar Turno</button>
+      </div>
+  
+      <div *ngIf="errorMessage" class="error-message">
+        <p>{{ errorMessage }}</p>
+      </div>
+    </div>
+  </body>
+  

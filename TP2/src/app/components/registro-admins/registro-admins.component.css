@@ -3,7 +3,7 @@ body{
     margin: 0;
     font-family: 'Dune_Rise';
     display: flex;
-    background-image: url('../../../assets/fondoRegistro.jpg');
+    background-image: url('../../../assets/fondo-admin.jpg');
     background-size: cover; /* La imagen se ajustará para cubrir toda la pantalla */
     background-position: center; /* Centra la imagen de fondo */
     height: 90vh;

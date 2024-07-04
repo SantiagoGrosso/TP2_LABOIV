@@ -9,6 +9,8 @@ import { BotonesInicioComponent } from './components/botones-inicio/botones-inic
 import { SeccionUsuariosComponent } from './components/seccion-usuarios/seccion-usuarios.component';
 import { RegistroAdminsComponent } from './components/registro-admins/registro-admins.component';
 import { HabilitarEspecialistasComponent } from './components/habilitar-especialistas/habilitar-especialistas.component';
+import { MiPerfilComponent } from './components/mi-perfil/mi-perfil.component';
+import { SolicitarTurnosComponent } from './components/solicitar-turnos/solicitar-turnos.component';
 
 export const routes: Routes = [
     {
@@ -54,5 +56,13 @@ export const routes: Routes = [
     {
         path:"habilitar-especialistas",
         component: HabilitarEspecialistasComponent
+    },
+    {
+        path:"mi-perfil",
+        component: MiPerfilComponent
+    },
+    {
+        path:"solicitar-turnos",
+        component: SolicitarTurnosComponent
     },
 ];

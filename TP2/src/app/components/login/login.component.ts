@@ -30,85 +30,105 @@ export class LoginComponent {
   }
 
   async onSubmit() {
-  if (this.loginForm.valid) {
-    const { email, password } = this.loginForm.value;
-    try {
-      // Iniciar sesión utilizando AuthService
-      await this.authService.login(email, password);
-
-      // Obtener el usuario actualmente autenticado
-      const user = await this.authService.getCurrentUser();
-
-      if (user) {
-        // Intentar obtener datos del especialista
-        const especialistaData = await this.authService.getEspecialistaData(user.uid);
-
-        if (especialistaData) {
-          // Usuario es un especialista
-          if (especialistaData.habilitado === true) {
-            // Especialista verificado y habilitado
+    if (this.loginForm.valid) {
+      const { email, password } = this.loginForm.value;
+      try {
+        // Iniciar sesión utilizando AuthService
+        await this.authService.login(email, password);
+  
+        // Obtener el usuario actualmente autenticado
+        const user = await this.authService.getCurrentUser();
+  
+        if (user) {
+          // Obtener el rol del usuario
+          const { role, data } = await this.authService.getUserRole(user.uid);
+  
+          if (role === 'especialista') {
+            // Usuario es un especialista
+            if (data.habilitado === true) {
+              // Especialista verificado y habilitado
+              Swal.fire({
+                position: "top-right",
+                icon: "success",
+                title: "Bienvenido especialista",
+                showConfirmButton: false,
+                timer: 1500,
+              });
+              this.router.navigate(['/bienvenida']);
+            } else {
+              // Especialista no verificado
+              Swal.fire({
+                position: "top-left",
+                icon: "error",
+                title: "Todavía no ha sido verificado",
+                showConfirmButton: false,
+                timer: 1500,
+              });
+              throw new Error('Especialista no verificado');
+            }
+          } else if (role === 'admin') {
+            // Usuario es un administrador
             Swal.fire({
               position: "top-right",
-              icon: "success",
-              title: "Bienvenido especialista",
-              showConfirmButton: false,
-              timer: 1500,
+                icon: "success",
+                title: "Bienvenido administrador",
+                showConfirmButton: false,
+                timer: 1500,
             });
-            this.router.navigate(['/inicio-especialista']);
-          } else {
-            // Especialista no verificado
+            this.router.navigate(['/bienvenida']);
+          } else if (role === 'paciente') {
+            // Usuario es un paciente
             Swal.fire({
-              position: "top-left",
-              icon: "error",
-              title: "Todavía no ha sido verificado",
-              showConfirmButton: false,
-              timer: 1500,
+              position: "top-right",
+                icon: "success",
+                title: "Bienvenido paciente",
+                showConfirmButton: false,
+                timer: 1500,
             });
-            throw new Error('Especialista no verificado');
+            this.router.navigate(['/bienvenida']);
           }
         } else {
-          // Usuario es un paciente u otro tipo de usuario
+          // Manejar el caso en el que no hay usuario autenticado
           Swal.fire({
-            position: "top-right",
-            icon: "success",
-            title: "Bienvenido",
+            position: "top-left",
+            icon: "error",
+            title: "Usuario no encontrado",
             showConfirmButton: false,
             timer: 1500,
           });
-          this.router.navigate(['/bienvenida']);
         }
-      } else {
-        // Manejar el caso en el que no hay usuario autenticado
-        Swal.fire({
-          position: "top-left",
-          icon: "error",
-          title: "Usuario no encontrado",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-      }
-    } catch (error: any) {
-      console.error('Error al iniciar sesión:', error);
-      if (error.message === 'Especialista no verificado') {
-        Swal.fire({
-          position: "top-left",
-          icon: "error",
-          title: "Especialista no verificado",
-          text: "Por favor, espere a que su cuenta sea habilitada.",
-          showConfirmButton: true,
-        });
-      } else {
-        Swal.fire({
-          position: "top-left",
-          icon: "error",
-          title: "Credenciales incorrectas",
-          showConfirmButton: false,
-          timer: 1500,
-        });
+      } catch (error: any) {
+        console.error('Error al iniciar sesión:', error);
+        if (error.message === 'Email no verificado') {
+          Swal.fire({
+            position: "top-left",
+            icon: "error",
+            title: "Correo no verificado",
+            text: "Por favor, verifica tu correo electrónico antes de iniciar sesión.",
+            showConfirmButton: true,
+          });
+        } else if (error.message === 'Especialista no verificado') {
+          Swal.fire({
+            position: "top-left",
+            icon: "error",
+            title: "Especialista no verificado",
+            text: "Por favor, espere a que su cuenta sea habilitada.",
+            showConfirmButton: true,
+          });
+        } else {
+          Swal.fire({
+            position: "top-left",
+            icon: "error",
+            title: "Credenciales incorrectas",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
       }
     }
   }
-}
+
+  
 
   ingresoRapido(email :string , password : string)
   {
