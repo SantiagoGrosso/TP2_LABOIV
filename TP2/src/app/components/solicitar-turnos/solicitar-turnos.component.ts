@@ -3,6 +3,7 @@ import { AuthService } from '../../services/auth.service';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { addDays, addMinutes, format, isSaturday, isSunday, startOfDay } from 'date-fns';
 import { es } from 'date-fns/locale';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-solicitar-turnos',
@@ -41,7 +42,8 @@ export class SolicitarTurnosComponent implements OnInit {
 
   loadSpecialists() {
     this.authService.getAllEspecialistas().then(specialists => {
-      this.specialists = specialists;
+      // Filtrar los especialistas habilitados
+      this.specialists = specialists.filter(specialist => specialist.habilitado);
     });
   }
 
@@ -168,11 +170,23 @@ export class SolicitarTurnosComponent implements OnInit {
         time: this.selectedHorario,
         pacienteId: pacienteId
       }).then(() => {
-        console.log('Turno guardado con éxito');
+        Swal.fire({
+          position: "top-right",
+          icon: "success",
+          title: "Turno guardado con éxito",
+          showConfirmButton: false,
+          timer: 1500,
+        });
         this.errorMessage = null; // Restablecer mensaje de error
         // Puedes agregar lógica adicional después de guardar el turno, como notificaciones
       }).catch(error => {
-        console.error('Error al guardar el turno:', error);
+        Swal.fire({
+          position: "top-left",
+          icon: "error",
+          title: "Error al guardar turno",
+          showConfirmButton: false,
+          timer: 1500,
+        });
         this.errorMessage = 'Ocurrió un error al guardar el turno. Inténtalo de nuevo.';
       });
     }

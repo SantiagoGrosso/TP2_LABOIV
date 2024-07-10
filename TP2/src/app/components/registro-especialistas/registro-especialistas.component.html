@@ -73,6 +73,17 @@
         </div>
       </div>
 
+      <div class="form-group">
+        <label for="captcha">Captcha</label>
+        <re-captcha 
+          (resolved)="onCaptchaResolved($any($event))" 
+          siteKey="6Ld8VgsqAAAAAFLrzA2wZicIxziqI9e8iLJpGZLG"
+          formControlName="recaptcha"
+          required>
+        </re-captcha>
+        <div *ngIf="captchaError" class="error-message">Captcha es requerido.</div>
+      </div>
+
       <button type="submit" [disabled]="registerForm.invalid">Registrarse</button>
     </form>
   </div>

@@ -11,6 +11,10 @@ import { RegistroAdminsComponent } from './components/registro-admins/registro-a
 import { HabilitarEspecialistasComponent } from './components/habilitar-especialistas/habilitar-especialistas.component';
 import { MiPerfilComponent } from './components/mi-perfil/mi-perfil.component';
 import { SolicitarTurnosComponent } from './components/solicitar-turnos/solicitar-turnos.component';
+import { TurnosComponent } from './components/turnos/turnos.component';
+import { MisTurnosPacComponent } from './components/mis-turnos-pac/mis-turnos-pac.component';
+import { MisTurnosEspComponent } from './components/mis-turnos-esp/mis-turnos-esp.component';
+import { SeccionPacientesComponent } from './components/seccion-pacientes/seccion-pacientes.component';
 
 export const routes: Routes = [
     {
@@ -65,4 +69,20 @@ export const routes: Routes = [
         path:"solicitar-turnos",
         component: SolicitarTurnosComponent
     },
+    {
+        path:"turnos",
+        component: TurnosComponent
+    },
+    {
+        path:"mis-turnos-pac",
+        component: MisTurnosPacComponent
+    },
+    {
+        path:"mis-turnos-esp",
+        component: MisTurnosEspComponent
+    },
+    {
+        path:"seccion-pacientes",
+        component: SeccionPacientesComponent
+    }
 ];

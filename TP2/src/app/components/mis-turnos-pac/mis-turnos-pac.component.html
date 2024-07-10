@@ -1,0 +1,197 @@
+<body>
+    <div class="turnos-container" *ngIf="isPaciente">
+        <input 
+            type="text" 
+            class="filter-input"
+            placeholder="Filtrar turnos" 
+            [(ngModel)]="filterText" 
+            (input)="filterTurnos()" 
+        />
+        <div *ngFor="let turno of filteredTurnos" class="turno">
+            <p>
+                <strong>Especialista:</strong> {{ turno.especialistaNombre }}
+            </p>
+            <p>
+                <strong>Especialidad:</strong> {{ turno.especialidad }}
+            </p>
+            <p>
+                <strong>Estado: </strong> 
+                <span [ngClass]="{
+                    'estado-pendiente': turno.estado === 'pendiente',
+                    'estado-cancelado': turno.estado === 'cancelado',
+                    'estado-rechazado': turno.estado === 'rechazado',
+                    'estado-aceptado': turno.estado === 'aceptado',
+                    'estado-realizado': turno.estado === 'realizado'
+                }">
+                    {{ turno.estado }}
+                </span>
+            </p>
+            <p *ngIf="turno.estado === 'cancelado'">
+                <strong>Comentario de Cancelación:</strong> {{ turno.comentarioCancelacion }}
+            </p>
+            <p *ngIf="turno.estado === 'rechazado'">
+                <strong>Comentario de Rechazo:</strong> {{ turno.comentarioRechazo }}
+            </p>
+            <p *ngIf="turno.estado === 'realizado'">
+                <strong>Reseña:</strong> {{ turno.comentarioFinalizacion }}
+            </p>
+            <p>
+                <strong>Fecha:</strong> {{ formatDate(turno.turno.toDate(), 'EEEE, d MMMM yyyy') }}
+            </p>
+            <p>
+                <strong>Hora:</strong> {{ formatDate(turno.turno.toDate(), 'HH:mm') }}
+            </p>
+            <div *ngIf="turno.estado === 'realizado'" class="historia-clinica-container">
+                <div *ngIf="turno.historiaClinicaCargada" class="historia-clinica">
+                    <h3>Historia Clínica</h3>
+                    <p><strong>Altura:</strong> {{ turno.historiaClinica.altura }} cm</p>
+                    <p><strong>Peso:</strong> {{ turno.historiaClinica.peso }} kg</p>
+                    <p><strong>Temperatura:</strong> {{ turno.historiaClinica.temperatura }} °C</p>
+                    <p><strong>Presión:</strong> {{ turno.historiaClinica.presion }} mmHg</p>
+                    <div *ngFor="let dato of turno.historiaClinica.datosDinamicos">
+                        <p><strong>{{ dato.clave }}:</strong> {{ dato.valor }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="button-group">
+                <button *ngIf="turno.estado === 'realizado' && !turno.encuestaCompleta" class="btn-encuesta" (click)="openEncuestaModal(turno)">
+                    Completar Encuesta
+                </button>
+                <button *ngIf="turno.estado === 'realizado' && !turno.calificacionAtencionCompleta" class="btn-calificar" (click)="openCalificarModal(turno)">
+                    Calificar Atención
+                </button>
+                <button *ngIf="turno.estado === 'realizado' && turno.encuestaCompleta" class="btn-ver-encuesta" (click)="openVerEncuestaModal(turno)">
+                    Ver Encuesta
+                </button>
+                <button *ngIf="turno.estado === 'realizado' && turno.calificacionAtencionCompleta" class="btn-ver-calificacion" (click)="openVerCalificacionModal(turno)">
+                    Ver Calificación
+                </button>
+                <button 
+                    *ngIf="turno.estado === 'pendiente' || turno.estado === 'aceptado'" 
+                    class="btn-cancelar"
+                    (click)="openCancelModal(turno)">
+                    Cancelar Turno
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Cancelar Turno -->
+    <div id="cancelModal" class="modal" *ngIf="showCancelModal">
+        <div class="modal-content">
+            <span class="close" (click)="closeModal()">&times;</span>
+            <h2>Cancelar Turno</h2>
+            <textarea [(ngModel)]="turnoToModify.comentarioCancelacion" placeholder="Comentario de cancelación"></textarea>
+            <button class="btn-cancelar" (click)="confirmCancelTurno()">Confirmar Cancelación</button>
+        </div>
+    </div>
+
+    <!-- Modal Encuesta -->
+    <div id="encuestaModal" class="modal" *ngIf="showEncuestaModal">
+        <div class="modal-content">
+            <span class="close" (click)="closeModal()">&times;</span>
+            <h2>Completar Encuesta</h2>
+            <form (ngSubmit)="confirmarEncuesta()" #encuestaForm="ngForm">
+                <div>
+                    <label>¿Cómo calificaría la puntualidad del especialista?</label>
+                    <select [(ngModel)]="turnoToModify.encuestaComentario.puntualidad" name="puntualidad" required>
+                        <option value="" disabled selected>Seleccione una opción</option>
+                        <option value="Excelente">Excelente</option>
+                        <option value="Bueno">Bueno</option>
+                        <option value="Regular">Regular</option>
+                        <option value="Malo">Malo</option>
+                    </select>
+                </div>
+                <div>
+                    <label>¿El especialista explicó claramente su diagnóstico y tratamiento?</label>
+                    <select [(ngModel)]="turnoToModify.encuestaComentario.diagnostico" name="diagnostico" required>
+                        <option value="" disabled selected>Seleccione una opción</option>
+                        <option value="Totalmente de acuerdo">Totalmente de acuerdo</option>
+                        <option value="De acuerdo">De acuerdo</option>
+                        <option value="En desacuerdo">En desacuerdo</option>
+                        <option value="Totalmente en desacuerdo">Totalmente en desacuerdo</option>
+                    </select>
+                </div>
+                <div>
+                    <label>¿Qué le pareció la limpieza y el orden del establecimiento?</label>
+                    <select [(ngModel)]="turnoToModify.encuestaComentario.limpieza" name="limpieza" required>
+                        <option value="" disabled selected>Seleccione una opción</option>
+                        <option value="Excelente">Excelente</option>
+                        <option value="Bueno">Bueno</option>
+                        <option value="Regular">Regular</option>
+                        <option value="Malo">Malo</option>
+                    </select>
+                </div>
+                <div>
+                    <label>¿Se sintió cómodo y atendido durante su consulta?</label>
+                    <select [(ngModel)]="turnoToModify.encuestaComentario.comodidad" name="comodidad" required>
+                        <option value="" disabled selected>Seleccione una opción</option>
+                        <option value="Sí, completamente">Sí, completamente</option>
+                        <option value="Sí, en su mayoría">Sí, en su mayoría</option>
+                        <option value="No mucho">No mucho</option>
+                        <option value="No, para nada">No, para nada</option>
+                    </select>
+                </div>
+                <div>
+                    <label>¿Qué tan satisfecho está con la atención recibida en general?</label>
+                    <select [(ngModel)]="turnoToModify.encuestaComentario.satisfaccion" name="satisfaccion" required>
+                        <option value="" disabled selected>Seleccione una opción</option>
+                        <option value="Muy satisfecho">Muy satisfecho</option>
+                        <option value="Satisfecho">Satisfecho</option>
+                        <option value="Insatisfecho">Insatisfecho</option>
+                        <option value="Muy insatisfecho">Muy insatisfecho</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-encuesta">Enviar Encuesta</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Calificar Atención -->
+    <div id="calificarModal" class="modal" *ngIf="showCalificarModal">
+        <div class="modal-content">
+            <span class="close" (click)="closeModal()">&times;</span>
+            <h2>Calificar Atención</h2>
+            <div class="calificacion">
+                <label>
+                    <input type="radio" name="rating" [(ngModel)]="turnoToModify.calificacionAtencion" value="1" /> 1
+                </label>
+                <label>
+                    <input type="radio" name="rating" [(ngModel)]="turnoToModify.calificacionAtencion" value="2" /> 2
+                </label>
+                <label>
+                    <input type="radio" name="rating" [(ngModel)]="turnoToModify.calificacionAtencion" value="3" /> 3
+                </label>
+                <label>
+                    <input type="radio" name="rating" [(ngModel)]="turnoToModify.calificacionAtencion" value="4" /> 4
+                </label>
+                <label>
+                    <input type="radio" name="rating" [(ngModel)]="turnoToModify.calificacionAtencion" value="5" /> 5
+                </label>
+            </div>
+            <button class="btn-calificar" (click)="confirmarCalificacion()">Enviar Calificación</button>
+        </div>
+    </div>
+
+    <!-- Modal Ver Encuesta -->
+    <div id="verEncuestaModal" class="modal" *ngIf="showVerEncuestaModal">
+        <div class="modal-content">
+            <span class="close" (click)="closeModal()">&times;</span>
+            <h2>Ver Encuesta</h2>
+            <p><strong>Puntualidad:</strong> {{ turnoToModify.encuestaComentario.puntualidad }}</p>
+            <p><strong>Diagnóstico:</strong> {{ turnoToModify.encuestaComentario.diagnostico }}</p>
+            <p><strong>Limpieza:</strong> {{ turnoToModify.encuestaComentario.limpieza }}</p>
+            <p><strong>Comodidad:</strong> {{ turnoToModify.encuestaComentario.comodidad }}</p>
+            <p><strong>Satisfacción:</strong> {{ turnoToModify.encuestaComentario.satisfaccion }}</p>
+        </div>
+    </div>
+    
+    <!-- Modal Ver Calificación -->
+    <div id="verCalificacionModal" class="modal" *ngIf="showVerCalificacionModal">
+        <div class="modal-content">
+            <span class="close" (click)="closeModal()">&times;</span>
+            <h2>Ver Calificación</h2>
+            <p><strong>Calificación de Atención:</strong> {{ turnoToModify.calificacionAtencion }}</p>
+        </div>
+    </div>
+</body>

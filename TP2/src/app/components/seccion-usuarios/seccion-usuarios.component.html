@@ -1,25 +1,56 @@
 <div class="container">
-    <!-- Panel izquierdo para habilitar especialistas -->
-    <div class="panel">
-      <app-habilitar-especialistas></app-habilitar-especialistas>
-    </div>
-    
-    <!-- Panel derecho para botones de registro -->
-    <div class="panel">
-      <!-- Botones para seleccionar el registro -->
-      <button (click)="showRegistro('paciente')">Registrar Paciente</button>
-      <button (click)="showRegistro('admin')">Registrar Admin</button>
-      <button (click)="showRegistro('especialista')">Registrar Especialista</button>
+  <!-- Panel izquierdo para habilitar especialistas -->
+  <div class="panel-lista">
+    <app-habilitar-especialistas></app-habilitar-especialistas>
+  </div>
   
-      <!-- Componentes para registro según el botón seleccionado -->
-      <ng-container *ngIf="registroSeleccionado === 'admin'">
-        <app-registro-admins></app-registro-admins>
-      </ng-container>
-      <ng-container *ngIf="registroSeleccionado === 'paciente'">
-        <app-registro-pacientes></app-registro-pacientes>
-      </ng-container>
-      <ng-container *ngIf="registroSeleccionado === 'especialista'">
-        <app-registro-especialistas></app-registro-especialistas>
-      </ng-container>
+  <!-- Panel derecho para botones de registro -->
+  <div class="panel-registro">
+    <!-- Botones para seleccionar el registro -->
+    <button (click)="showRegistro('paciente')">Registrar Paciente</button>
+    <button (click)="showRegistro('admin')">Registrar Admin</button>
+    <button (click)="showRegistro('especialista')">Registrar Especialista</button>
+
+    <!-- Componentes para registro según el botón seleccionado -->
+    <ng-container *ngIf="registroSeleccionado === 'admin'">
+      <app-registro-admins></app-registro-admins>
+    </ng-container>
+    <ng-container *ngIf="registroSeleccionado === 'paciente'">
+      <app-registro-pacientes></app-registro-pacientes>
+    </ng-container>
+    <ng-container *ngIf="registroSeleccionado === 'especialista'">
+      <app-registro-especialistas></app-registro-especialistas>
+    </ng-container>
+  </div>
+
+  <!-- Panel para mostrar los usuarios -->
+  <div class="panel-descarga">
+    <div class="usuarios-wrapper">
+      <div *ngFor="let paciente of pacientes" class="usuario-item">
+        <button class="fav-button" (click)="handlePacienteClick(paciente)">
+          <p>{{paciente.nombre}}</p>
+          <img [src]="paciente.foto1" alt="Foto de {{paciente.nombre}}" class="usuario-foto">
+        </button>
+      </div>
+    </div>
+
+    <!-- Panel para mostrar las historias clínicas -->
+    <div class="historias-panel" *ngIf="pacienteSeleccionado">
+      <div *ngIf="historiasClinicas && historiasClinicas.length > 0">
+        <div class="historia-clinica-container" *ngFor="let historia of historiasClinicas">
+          <h3>Historia Clínica</h3>
+          <p><strong>Altura:</strong> {{ historia.altura }} cm</p>
+          <p><strong>Peso:</strong> {{ historia.peso }} kg</p>
+          <p><strong>Temperatura:</strong> {{ historia.temperatura }} °C</p>
+          <p><strong>Presión:</strong> {{ historia.presion }} mmHg</p>
+          <div *ngFor="let dato of historia.datosDinamicos">
+            <p><strong>{{ dato.clave }}:</strong> {{ dato.valor }}</p>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="!historiasClinicas || historiasClinicas.length === 0">
+        <p>No hay historias clínicas disponibles.</p>
+      </div>
     </div>
   </div>
+</div>

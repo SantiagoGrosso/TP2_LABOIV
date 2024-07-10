@@ -1,6 +1,6 @@
 <body>
-  <div class="app-container">
-    <div class="user-profile" *ngIf="user$ | async as user">
+  <div class="app-container" @fadeInFromBottom>
+    <div class="user-profile" *ngIf="user$ | async as user" @fadeInFromBottom>
       <div *ngIf="user?.role === 'admin'">
         <img alt="Usuario" [src]="user?.data?.foto1"/>
         <p>Nombre: {{ user?.data?.nombre }}</p>
@@ -20,18 +20,20 @@
         <p>Edad: {{ user?.data?.edad }}</p>
         <p>Especialidad: {{ user?.data?.especialidad }}</p>
         <!-- Botones para seleccionar horarios -->
-        <div>
-          <label>
-            <input type="checkbox" (change)="toggleHorario('mañana', $event)" /> Mañana
-          </label>
-          <label>
-            <input type="checkbox" (change)="toggleHorario('tarde', $event)" /> Tarde
-          </label>
+        <div class="horarios-selector">
+          <div class="horario-option">
+            <input type="checkbox" id="mañana" (change)="toggleHorario('mañana', $event)" />
+            <label for="mañana">Mañana</label>
+          </div>
+          <div class="horario-option">
+            <input type="checkbox" id="tarde" (change)="toggleHorario('tarde', $event)" />
+            <label for="tarde">Tarde</label>
+          </div>
           <button (click)="guardarHorarios()">Guardar Horarios</button>
         </div>
       </div>
 
-      <div *ngIf="user?.role === 'paciente'">
+      <div class="usuarioDiv" *ngIf="user?.role === 'paciente'">
         <img alt="Usuario" [src]="user?.data?.foto1"/>
         <p>Nombre: {{ user?.data?.nombre }}</p>
         <p>Apellido: {{ user?.data?.apellido }}</p>
@@ -39,8 +41,45 @@
         <p>Correo: {{ user?.data?.mail }}</p>
         <p>Edad: {{ user?.data?.edad }}</p>
         <p>Obra social: {{ user?.data?.obraSocial }}</p>
-        <!-- Muestra más información según sea necesario -->
+        <!-- Mostrar historias clínicas -->
+        <div *ngIf="historiasClinicas && historiasClinicas.length > 0">
+          <button (click)="abrirModalEspecialidades()">Descargar Historias Clínicas</button>
+          <div class="historias-wrapper">
+            <div class="historia-clinica-container" *ngFor="let historia of historiasClinicas">
+              <h3>Historia Clínica</h3>
+              <p><strong>Altura:</strong> {{ historia.altura }} cm</p>
+              <p><strong>Peso:</strong> {{ historia.peso }} kg</p>
+              <p><strong>Temperatura:</strong> {{ historia.temperatura }} °C</p>
+              <p><strong>Presión:</strong> {{ historia.presion }} mmHg</p>
+              <p><strong>Especialidad:</strong> {{ historia.especialidad }}</p>
+              <div *ngFor="let dato of historia.datosDinamicos">
+                <p><strong>{{ dato.clave }}:</strong> {{ dato.valor }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="!historiasClinicas || historiasClinicas.length === 0">
+          <p>No hay historias clínicas disponibles.</p>
+        </div>
       </div>
     </div>
+
+    <!-- Modal de Especialidades -->
+    <div class="modal-container" *ngIf="mostrarModal">
+      <div class="modal">
+        <h2>Seleccionar Especialidad</h2>
+        <div *ngFor="let especialidad of especialidades">
+          <label>
+            <input type="radio" [id]="especialidad" name="especialidad" [value]="especialidad" [(ngModel)]="especialidadSeleccionada">
+            {{ especialidad }}
+          </label>
+        </div>
+        <div class="buttons">
+          <button class="confirm" (click)="confirmarEspecialidad()">Confirmar</button>
+          <button class="cancel" (click)="cerrarModal()">Cancelar</button>
+        </div>
+      </div>
+    </div>
+
   </div>
 </body>

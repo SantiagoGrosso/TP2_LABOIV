@@ -3,21 +3,22 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { DataService } from '../../services/data.service';
 import { CustomValidators } from '../../validators/custom-validators';
 import Swal from 'sweetalert2';
+import { RecaptchaFormsModule, RecaptchaModule } from 'ng-recaptcha';
 
 @Component({
   selector: 'app-registro-admins',
   standalone: true,
-  imports: [FormsModule, NgClass, NgIf, ReactiveFormsModule],
+  imports: [FormsModule, NgClass, NgIf, ReactiveFormsModule, RecaptchaModule, RecaptchaFormsModule],
   templateUrl: './registro-admins.component.html',
-  styleUrl: './registro-admins.component.css'
+  styleUrls: ['./registro-admins.component.css']
 })
 export class RegistroAdminsComponent {
 
   profileImages: File[] = [];
   vieneDeRegistro: boolean = false;
+  captchaError: boolean = false;
 
   // Definición del FormGroup
   registerForm: FormGroup;
@@ -26,17 +27,17 @@ export class RegistroAdminsComponent {
     private formBuilder: FormBuilder,
     private router: Router,
     private auth: AuthService,
-    private data: DataService
   ) {
     // Inicialización del FormGroup y definición de los controles
     this.registerForm = this.formBuilder.group({
       nombre: ['', [Validators.required, CustomValidators.onlyLetters, CustomValidators.minLength(3)]],
       apellido: ['', [Validators.required, CustomValidators.onlyLetters, CustomValidators.minLength(3)]],
-      dni: ['', [Validators.required, CustomValidators.onlyNumbers, CustomValidators.maxLength(8), CustomValidators.minLength(8)]],
-      edad: ['', [Validators.required, CustomValidators.onlyNumbers, CustomValidators.maxLength(1), CustomValidators.minLength(2)]],
+      dni: ['', [Validators.required, CustomValidators.onlyNumbers, Validators.minLength(8), Validators.maxLength(8)]],
+      edad: ['', [Validators.required, CustomValidators.onlyNumbers, Validators.min(1), Validators.max(99)]],
       mail: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
       foto1: ['', Validators.required],
+      recaptcha: ['', Validators.required] // Agregar el control de reCAPTCHA
     });
   }
 
@@ -84,5 +85,11 @@ export class RegistroAdminsComponent {
       // Asignar archivo al control correspondiente según el índice
       this.registerForm.patchValue({ [`foto${index}`]: file });
     }
+  }
+
+  // Método para manejar la resolución del CAPTCHA
+  onCaptchaResolved(captchaResponse: string) {
+    this.registerForm.patchValue({ recaptcha: captchaResponse });
+    this.captchaError = false; // Reinicia el error del CAPTCHA cuando se resuelve correctamente
   }
 }

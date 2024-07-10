@@ -6,7 +6,7 @@ body{
     background-image: url('../../../assets/fondo-admin.jpg');
     background-size: cover; /* La imagen se ajustará para cubrir toda la pantalla */
     background-position: center; /* Centra la imagen de fondo */
-    height: 90vh;
+    height: 105vh;
 }
 
 .register-container {

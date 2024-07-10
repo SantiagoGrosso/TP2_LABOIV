@@ -1,26 +1,41 @@
 .container {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start; /* Alinea los elementos al inicio verticalmente */
   background-image: url('../../../assets/fondo-usuarios.jpg');
   background-size: cover;
   background-position: center;
   overflow: hidden; /* Evita el scroll en el contenedor */
+  font-family: Arial, Helvetica, sans-serif;
 }
 
-.panel {
-  width: 36%;
-  padding: 10px;
+.panel-lista {
+  margin-top: 100px;
+  margin-bottom: 100px;
+}
+
+.panel-registro {
+  margin-top: 55px;
+  min-height: 1000px;
+}
+
+.panel-descarga {
+  margin: 50px;
+  background-color: #d1a054;
+  border-radius: 15px;
+  padding: 20px;
+  max-height: 400px; /* Ajusta según sea necesario */
+  overflow-y: auto; /* Permite el scroll si el contenido excede la altura */
 }
 
 button {
   border: 1px solid #2e4c6d;
   background-color: #2e4c6d;
   color: #d2691e;
-  border-radius: 8px;
-  padding: 10px 20px;
-  margin: 10px;
-  font-size: 16px;
+  border-radius: 50px; /* Botones más redondos */
+  padding: 10px 15px;
+  margin: 5px; /* Botones más juntos */
+  font-size: 12px;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.3s ease;
 }
@@ -33,4 +48,141 @@ button:hover {
 button:active {
   background-color: #162738;
   transform: scale(0.95);
+}
+
+/* Estilos para el panel de usuarios */
+.usuarios-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.usuarios-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.usuario-item {
+  display: flex;
+  align-items: center;
+  margin: 5px;
+}
+
+.usuario-foto {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #2e4c6d;
+}
+
+.fav-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #d1a054;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 5px;
+  font-size: 16px;
+  transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
+  position: relative;
+}
+
+.fav-button:hover {
+  background-color: #132d49;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.fav-button:active {
+  background-color: #132d49;
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.fav-button p {
+  margin: 0;
+  position: absolute;
+  top: -20px;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border-radius: 10px;
+  padding: 5px;
+  font-size: 14px;
+}
+
+/* Estilos para el panel de historias clínicas */
+.historias-panel {
+  width: 100%;
+  padding: 20px;
+  background-color: #f0e4d7;
+  border-radius: 15px;
+  margin-top: 20px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  max-height: 300px; /* Altura máxima del panel */
+  overflow-y: auto; /* Scrollbar vertical */
+}
+
+.historia-clinica-container {
+  background-color: #d1a054;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Scrollbar personalizado */
+.panel-descarga::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+.panel-descarga::-webkit-scrollbar-track {
+  background: #2e4c6d;
+}
+
+.panel-descarga::-webkit-scrollbar-thumb {
+  background: #2e4c6d;
+  border-radius: 6px;
+}
+
+.panel-descarga::-webkit-scrollbar-thumb:hover {
+  background: #2e4c6d;
+}
+
+/* Scrollbar para Firefox */
+.panel-descarga {
+  scrollbar-width: thin;
+  scrollbar-color: #2e4c6d rgba(209, 160, 84, 0.7);
+}
+
+/* Scrollbar para IE y Edge */
+.panel-descarga * {
+  -ms-overflow-style: none;
+}
+
+.panel-descarga *::-ms-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+.panel-descarga *::-ms-scrollbar-track {
+  background: #2e4c6d;
+}
+
+.panel-descarga *::-ms-scrollbar-thumb {
+  background: #2e4c6d;
+  border-radius: 6px;
+}
+
+.panel-descarga *::-ms-scrollbar-thumb:hover {
+  background: #2e4c6d;
 }

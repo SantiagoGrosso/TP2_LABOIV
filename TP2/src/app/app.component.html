@@ -14,11 +14,23 @@
         <li class="nav-item" *ngIf="!(isLoggedIn$ | async)">
           <a class="nav-link" href="registro">Registrarse</a>
         </li>
-        <li class="nav-item" *ngIf="(isLoggedIn$ | async) && (isAdmin)">
+        <li class="nav-item" *ngIf="isAdmin">
           <a class="nav-link" href="seccion-usuarios">Usuarios</a>
+        </li>
+        <li class="nav-item" *ngIf="isAdmin">
+          <a class="nav-link" href="turnos">Turnos</a>
         </li>
         <li class="nav-item" *ngIf="isLoggedIn$ | async">
           <a class="nav-link" href="mi-perfil">Mi perfil</a>
+        </li>
+        <li class="nav-item" *ngIf="isPaciente">
+          <a class="nav-link" href="mis-turnos-pac">Mis Turnos</a>
+        </li>
+        <li class="nav-item" *ngIf="isEspecialista">
+          <a class="nav-link" href="mis-turnos-esp">Mis Turnos</a>
+        </li>
+        <li class="nav-item" *ngIf="isEspecialista">
+          <a class="nav-link" href="seccion-pacientes">Pacientes</a>
         </li>
         <li class="nav-item" *ngIf="(isLoggedIn$ | async) && (isAdmin || isPaciente)">
           <a class="nav-link" href="solicitar-turnos">Solicitar Turno</a>

@@ -1,27 +1,28 @@
 import { Component } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-registro',
-  standalone: true,
-  imports: [],
   templateUrl: './registro.component.html',
-  styleUrl: './registro.component.css'
+  styleUrls: ['./registro.component.css'],
+  animations: [
+    trigger('fadeInFromBottom', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateY(100%)' }),
+        animate('500ms ease-out', style({ opacity: 1, transform: 'translateY(0)' }))
+      ])
+    ])
+  ]
 })
 export class RegistroComponent {
+  constructor(public router: Router) { }
 
-  constructor(public formBuilder: FormBuilder, public router: Router) {
-  }
-
-  navegarPacientes()
-  {
+  navegarPacientes() {
     this.router.navigateByUrl('/registro_pacientes');
   }
 
-  navegarEspecialistas()
-  {
+  navegarEspecialistas() {
     this.router.navigateByUrl('/registro_especialistas');
   }
-
 }

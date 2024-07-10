@@ -2,23 +2,23 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { Paciente } from '../../classes/paciente';
 import { NgClass, NgIf } from '@angular/common';
 import { CustomValidators } from '../../validators/custom-validators';
-import { DataService } from '../../services/data.service';
 import Swal from 'sweetalert2';
+import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
 
 @Component({
   selector: 'app-registro-pacientes',
   standalone: true,
   templateUrl: './registro-pacientes.component.html',
   styleUrls: ['./registro-pacientes.component.css'],
-  imports: [FormsModule, NgClass, NgIf, ReactiveFormsModule]
+  imports: [FormsModule, NgClass, NgIf, ReactiveFormsModule, RecaptchaModule, RecaptchaFormsModule]
 })
 export class RegistroPacientesComponent {
 
   profileImages: File[] = [];
   vieneDeRegistro: boolean = false;
+  captchaError: boolean = false;
 
   // Definición del FormGroup
   registerForm: FormGroup;
@@ -27,19 +27,19 @@ export class RegistroPacientesComponent {
     private formBuilder: FormBuilder,
     private router: Router,
     private auth: AuthService,
-    private data: DataService
   ) {
     // Inicialización del FormGroup y definición de los controles
     this.registerForm = this.formBuilder.group({
       nombre: ['', [Validators.required, CustomValidators.onlyLetters, CustomValidators.minLength(3)]],
       apellido: ['', [Validators.required, CustomValidators.onlyLetters, CustomValidators.minLength(3)]],
       dni: ['', [Validators.required, CustomValidators.onlyNumbers, CustomValidators.maxLength(8), CustomValidators.minLength(8)]],
-      edad: ['', [Validators.required, CustomValidators.onlyNumbers, CustomValidators.maxLength(1), CustomValidators.minLength(2)]],
+      edad: ['', [Validators.required, CustomValidators.onlyNumbers, CustomValidators.maxLength(2), CustomValidators.minLength(1)]],
       obraSocial: ['', Validators.required],
       mail: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
       foto1: ['', Validators.required],
       foto2: ['', Validators.required],
+      recaptcha: ['', Validators.required] // Agregar el control de reCAPTCHA
     });
   }
 
@@ -87,5 +87,11 @@ export class RegistroPacientesComponent {
       // Asignar archivo al control correspondiente según el índice
       this.registerForm.patchValue({ [`foto${index}`]: file });
     }
+  }
+
+  // Método para manejar la resolución del CAPTCHA
+  onCaptchaResolved(captchaResponse: string) {
+    this.registerForm.patchValue({ recaptcha: captchaResponse });
+    this.captchaError = false; // Reinicia el error del CAPTCHA cuando se resuelve correctamente
   }
 }

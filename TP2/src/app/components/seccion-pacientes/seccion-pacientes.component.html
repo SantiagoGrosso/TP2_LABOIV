@@ -1,0 +1,37 @@
+<body>
+  <div class="container">
+    <div class="pacientes-wrapper" *ngIf="pacientes.length > 0">
+      <div class="card" *ngFor="let paciente of pacientes">
+        <img [src]="paciente.foto1" alt="Foto de {{paciente.nombre}}" class="paciente-foto">
+        <h3>{{paciente.nombre}}</h3>
+        <div class="consultas">
+          <div class="consulta" *ngFor="let consulta of paciente.consultas">
+            <h4>Consulta</h4>
+            <p><strong>Fecha:</strong> {{consulta.fecha}}</p>
+            <p><strong>Especialidad:</strong> {{consulta.especialidad}}</p>
+            <p><strong>Comentario:</strong> {{consulta.comentario}}</p>
+          </div>
+        </div>
+        <button (click)="verHistoriaClinica(paciente)">Ver Historia Clínica</button>
+      </div>
+    </div>
+
+    <!-- Modal para mostrar la historia clínica -->
+    <div class="modal" *ngIf="mostrarHistoriaClinica">
+      <div class="modal-content">
+        <span class="close" (click)="mostrarHistoriaClinica = false">&times;</span>
+        <h3>Historia Clínica</h3>
+        <div *ngFor="let historia of historiaClinica" class="historia">
+          <h4>Especialidad: {{ historia.especialidad }}</h4> <!-- Especialidad de la historia clínica -->
+          <p><strong>Altura:</strong> {{ historia.altura }} cm</p>
+          <p><strong>Peso:</strong> {{ historia.peso }} kg</p>
+          <p><strong>Temperatura:</strong> {{ historia.temperatura }} °C</p>
+          <p><strong>Presión:</strong> {{ historia.presion }} mmHg</p>
+          <div *ngFor="let dato of historia.datosDinamicos">
+            <p><strong>{{ dato.clave }}:</strong> {{ dato.valor }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>

@@ -11,6 +11,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AuthService } from './services/auth.service';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getFirestore } from 'firebase/firestore';
+import { RecaptchaCommonModule } from 'ng-recaptcha/lib/recaptcha-common.module';
+import { RecaptchaFormsModule, RecaptchaModule } from 'ng-recaptcha';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 export const appConfig: ApplicationConfig = {
   providers: [provideRouter(routes),
@@ -28,6 +31,9 @@ export const appConfig: ApplicationConfig = {
       AngularFireAuthModule, 
       BrowserModule,
       AuthService,
+      RecaptchaModule,
+      RecaptchaFormsModule,
+      BrowserAnimationsModule
     )
   ]
 };

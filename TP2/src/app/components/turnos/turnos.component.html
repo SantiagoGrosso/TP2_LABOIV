@@ -1,0 +1,64 @@
+<body>
+    <div class="turnos-container" *ngIf="isAdmin">
+        <input 
+            type="text" 
+            class="filter-input"
+            placeholder="Filtrar turnos" 
+            [(ngModel)]="filterText" 
+            (input)="filterTurnos()" 
+        />
+        <div *ngFor="let turno of filteredTurnos" class="turno">
+            <p>
+                <strong>Especialista: </strong> {{ turno.especialistaNombre }}
+            </p>
+            <p>
+                <strong>Especialidad: </strong> {{ turno.especialidad }}
+            </p>
+            <p>
+                <strong>Paciente: </strong> {{ turno.pacienteNombre }}
+            </p>
+            <p>
+                <strong>Estado: </strong> 
+                <span [ngClass]="{
+                    'estado-pendiente': turno.estado === 'pendiente',
+                    'estado-cancelado': turno.estado === 'cancelado',
+                    'estado-rechazado': turno.estado === 'rechazado',
+                    'estado-aceptado': turno.estado === 'aceptado',
+                    'estado-realizado': turno.estado === 'realizado'
+                }">
+                    {{ turno.estado }}
+                </span>
+            </p>
+            <p *ngIf="turno.estado === 'cancelado'">
+                <strong>Comentario de Cancelación:</strong> {{ turno.comentarioCancelacion }}
+            </p>
+            <p *ngIf="turno.estado === 'rechazado'">
+                <strong>Comentario de Rechazo:</strong> {{ turno.comentarioRechazo }}
+            </p>
+            <p *ngIf="turno.estado === 'realizado'">
+                <strong>Reseña:</strong> {{ turno.comentarioFinalizacion }}
+            </p>
+            <p>
+                <strong>Fecha: </strong> {{ formatDate(turno.turno.toDate(), 'EEEE, d MMMM yyyy') }}
+            </p>
+            <p>
+                <strong>Hora: </strong> {{ formatDate(turno.turno.toDate(), 'HH:mm') }}
+            </p>
+            <button 
+                *ngIf="turno.estado !== 'aceptado' && turno.estado !== 'realizado' && turno.estado !== 'rechazado' && turno.estado !== 'cancelado'" 
+                (click)="openCancelModal(turno)" class="btn-cancelar">
+                Cancelar Turno
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="cancelModal" class="modal" *ngIf="showCancelModal">
+        <div class="modal-content">
+            <span class="close" (click)="closeCancelModal()">&times;</span>
+            <h2>Cancelar Turno</h2>
+            <textarea [(ngModel)]="turnoToCancel.comentarioCancelacion" placeholder="Comentario de cancelación"></textarea>
+            <button (click)="confirmCancelTurno()" class="btn-cancelar">Confirmar Cancelación</button>
+        </div>
+    </div>
+</body>

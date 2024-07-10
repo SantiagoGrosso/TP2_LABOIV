@@ -5,16 +5,30 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { Router } from '@angular/router';
 import { NgIf } from '@angular/common';
 import { BotonesInicioComponent } from '../botones-inicio/botones-inicio.component';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [NgIf, FormsModule, ReactiveFormsModule, BotonesInicioComponent],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrls: ['./login.component.css'],
+  animations: [
+    trigger('loginAnimation', [
+      transition(':enter', [
+        style({ transform: 'translateY(-1000px)', opacity: 0 }),
+        animate('1s ease-out', style({ transform: 'translateY(0)', opacity: 1 }))
+      ])
+    ]),
+    trigger('botonesInicioAnimation', [
+      transition(':enter', [
+        style({ transform: 'translateX(-100%)', opacity: 0 }),
+        animate('0.8s ease-out', style({ transform: 'translateX(0)', opacity: 1 }))
+      ])
+    ])
+  ]
 })
 export class LoginComponent {
-
   loginForm: FormGroup;
   errorMessage: string = '';
 
@@ -64,26 +78,27 @@ export class LoginComponent {
                 showConfirmButton: false,
                 timer: 1500,
               });
+              await this.authService.logout(); // Asegúrate de cerrar la sesión
               throw new Error('Especialista no verificado');
             }
           } else if (role === 'admin') {
             // Usuario es un administrador
             Swal.fire({
               position: "top-right",
-                icon: "success",
-                title: "Bienvenido administrador",
-                showConfirmButton: false,
-                timer: 1500,
+              icon: "success",
+              title: "Bienvenido administrador",
+              showConfirmButton: false,
+              timer: 1500,
             });
             this.router.navigate(['/bienvenida']);
           } else if (role === 'paciente') {
             // Usuario es un paciente
             Swal.fire({
               position: "top-right",
-                icon: "success",
-                title: "Bienvenido paciente",
-                showConfirmButton: false,
-                timer: 1500,
+              icon: "success",
+              title: "Bienvenido paciente",
+              showConfirmButton: false,
+              timer: 1500,
             });
             this.router.navigate(['/bienvenida']);
           }
@@ -128,8 +143,6 @@ export class LoginComponent {
     }
   }
 
-  
-
   ingresoRapido(email :string , password : string)
   {
     this.loginForm.patchValue({
@@ -144,5 +157,4 @@ export class LoginComponent {
       password: credenciales.password
     });
   }
-
 }
