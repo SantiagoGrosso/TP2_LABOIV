@@ -18,6 +18,5 @@ Nuestra web está diseñada utilizando TypeScript y el framework Angular, comple
 
 📞 Contáctanos Hoy Mismo:
 
-Teléfono: 123-456-789
-Email: contacto@clinicaonline.com
-Sitio Web: www.clinicaonline.com
+Email: santigrosso107@gmail.com
+Sitio Web: https://tp02-ef411.web.app/bienvenida
