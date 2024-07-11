@@ -1,0 +1,148 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  }
+  
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #d1a054;
+    background-image: url('../../../assets/fondo-pacientes.jpg');
+    background-size: cover;
+    background-position: center;
+  }
+  
+  .background {
+    padding: 20px;
+    background-color: #d1a054;
+    border-radius: 8px;
+    margin: 20px auto;
+    max-width: 1200px;
+    color: #2e4c6d;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+  
+  .title {
+    background-color: #d2691e;
+    padding: 20px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .btn {
+    background-color: #2e4c6d;
+    color: #ffffff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    margin-left: 10px;
+  }
+  
+  .btn:hover {
+    background-color: #132d49;
+    transform: scale(1.05);
+  }
+  
+  .chart {
+    background-color: #d2691e;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+  }
+  
+  .users-container {
+    padding: 30px;
+    background-color: #d2691e;
+    border-radius: 8px;
+    margin-top: 10px;
+    flex-direction: column;
+    max-height: 75px;
+    overflow-y: auto;
+  }
+  
+  .user {
+    background-color: #d1a054;
+    color: #2e4c6d;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+  
+  .container {
+    overflow-y: auto;
+    max-height: 200px;
+  }
+  
+  /* Estilos de scroll */
+  .users-container::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
+  
+  .users-container::-webkit-scrollbar-track {
+    background: #2e4c6d;
+  }
+  
+  .users-container::-webkit-scrollbar-thumb {
+    background: #2e4c6d;
+    border-radius: 6px;
+  }
+  
+  .users-container::-webkit-scrollbar-thumb:hover {
+    background: #132d49;
+  }
+  
+  /* Scrollbar for Firefox */
+  .users-container {
+    scrollbar-width: thin;
+    scrollbar-color: #2e4c6d rgba(209, 160, 84, 0.7);
+  }
+  
+  /* Scrollbar for IE and Edge */
+  .users-container * {
+    -ms-overflow-style: none;
+  }
+  
+  .users-container *::-ms-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
+  
+  .users-container *::-ms-scrollbar-track {
+    background: #2e4c6d;
+  }
+  
+  .users-container *::-ms-scrollbar-thumb {
+    background: #2e4c6d;
+    border-radius: 6px;
+  }
+  
+  .users-container *::-ms-scrollbar-thumb:hover {
+    background: #132d49;
+  }
+  
+  h1 {
+    font-size: 24px;
+  }
+  
+  h2 {
+    font-size: 20px;
+    text-align: center;
+  }
+  
+  span {
+    font-size: 16px;
+  }
+  

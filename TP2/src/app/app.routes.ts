@@ -15,6 +15,12 @@ import { TurnosComponent } from './components/turnos/turnos.component';
 import { MisTurnosPacComponent } from './components/mis-turnos-pac/mis-turnos-pac.component';
 import { MisTurnosEspComponent } from './components/mis-turnos-esp/mis-turnos-esp.component';
 import { SeccionPacientesComponent } from './components/seccion-pacientes/seccion-pacientes.component';
+import { GraficosComponent } from './components/graficos/graficos.component';
+import { GraficoIngresosComponent } from './components/grafico-ingresos/grafico-ingresos.component';
+import { GraficoTurnosEspComponent } from './components/grafico-turnos-esp/grafico-turnos-esp.component';
+import { GraficoTurnosDiaComponent } from './components/grafico-turnos-dia/grafico-turnos-dia.component';
+import { GraficoTurnosSolComponent } from './components/grafico-turnos-sol/grafico-turnos-sol.component';
+import { GraficoTurnosFinComponent } from './components/grafico-turnos-fin/grafico-turnos-fin.component';
 
 export const routes: Routes = [
     {
@@ -84,5 +90,29 @@ export const routes: Routes = [
     {
         path:"seccion-pacientes",
         component: SeccionPacientesComponent
-    }
+    },
+    {
+        path:"graficos",
+        component: GraficosComponent
+    },
+    {
+        path:"grafico-ingresos",
+        component: GraficoIngresosComponent
+    },
+    {
+        path:"grafico-turnos-esp",
+        component: GraficoTurnosEspComponent
+    },
+    {
+        path:"grafico-turnos-dia",
+        component: GraficoTurnosDiaComponent
+    },
+    {
+        path:"grafico-turnos-sol",
+        component: GraficoTurnosSolComponent
+    },
+    {
+        path:"grafico-turnos-fin",
+        component: GraficoTurnosFinComponent
+    },
 ];

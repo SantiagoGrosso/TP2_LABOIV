@@ -1,13 +1,19 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, Subject, map, of, switchMap } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, Timestamp, from, map, mergeMap, of, switchMap } from 'rxjs';
 import { User, getAuth, sendEmailVerification } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Paciente } from '../classes/paciente';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { Especialista } from '../classes/especialista';
 import { Admin } from '../classes/admin';
+
+interface Usuario {
+  nombre?: string;
+  apellido?: string;
+  // Puedes agregar más campos si es necesario
+}
 
 @Injectable({
   providedIn: 'root'
@@ -178,17 +184,29 @@ async login(email: string, password: string): Promise<void> {
       this.esEspecialista = false;
       this.esPaciente = false;
 
+      let nombreUsuario = '';
+      let apellidoUsuario= '';
+
       const adminDoc = await this.afs.collection('administradores').doc(user.uid).ref.get();
       if (adminDoc.exists) {
         this.esAdmin = true;
+        const adminData = adminDoc.data() as Usuario;
+        nombreUsuario = adminData.nombre || '';
+        apellidoUsuario = adminData.apellido || '';
       } else {
         const especialistaDoc = await this.afs.collection('especialistas').doc(user.uid).ref.get();
         if (especialistaDoc.exists) {
           this.esEspecialista = true;
+          const especialistaData = especialistaDoc.data() as Usuario;
+          nombreUsuario = especialistaData.nombre || '';
+          apellidoUsuario = especialistaData.apellido || '';
         } else {
           const pacienteDoc = await this.afs.collection('pacientes').doc(user.uid).ref.get();
           if (pacienteDoc.exists) {
             this.esPaciente = true;
+            const pacienteData = pacienteDoc.data() as Usuario;
+            nombreUsuario = pacienteData.nombre || '';
+            apellidoUsuario = pacienteData.apellido || '';
           }
         }
       }
@@ -198,6 +216,15 @@ async login(email: string, password: string): Promise<void> {
         esEspecialista: this.esEspecialista,
         esPaciente: this.esPaciente
       });
+
+      // Guardar el ingreso en Firestore
+      const ingreso = {
+        nombre: nombreUsuario,
+        apellido: apellidoUsuario,
+        dia: new Date().toLocaleDateString('es-ES'), // Guardar la fecha actual
+        horario: new Date().toLocaleTimeString('it-IT') // Guardar la hora actual en formato de 24 horas
+      };
+      await this.afs.collection('ingresos').add(ingreso);
     }
 
     this.router.navigate(['/']);
@@ -206,6 +233,7 @@ async login(email: string, password: string): Promise<void> {
     throw error;
   }
 }
+
 
 
 async logout(): Promise<void> {
@@ -638,7 +666,169 @@ async logout(): Promise<void> {
 }
 
   
-  
-  
+getIngresos(): Observable<any[]> {
+  return this.afs.collection('ingresos').snapshotChanges().pipe(
+    map(actions => {
+      const ingresos = actions.map(a => {
+        const data = a.payload.doc.data() as any;
+        const diaParts = data.dia.split('/'); // Dividir la cadena de fecha en partes
+        const dia = new Date(`${diaParts[2]}-${diaParts[1]}-${diaParts[0]}`); // Reorganizar partes a yyyy-MM-dd
+        const horarioParts = data.horario.split(':'); // Dividir la cadena de tiempo en partes
+        const horario = new Date();
+        horario.setHours(parseInt(horarioParts[0], 10));
+        horario.setMinutes(parseInt(horarioParts[1], 10));
+        horario.setSeconds(parseInt(horarioParts[2], 10));
+
+        return {
+          nombre: data.nombre,
+          apellido: data.apellido,
+          dia,
+          horario,
+          diaFormateado: this.formatDate(dia), // Convertir a Date y formatear
+          horarioFormateado: this.formatTime(horario) // Convertir a Date y formatear
+        };
+      });
+
+      // Ordenar los ingresos por fecha y hora de manera descendente
+      ingresos.sort((a, b) => {
+        if (a.dia.getTime() === b.dia.getTime()) {
+          return b.horario.getTime() - a.horario.getTime();
+        } else {
+          return b.dia.getTime() - a.dia.getTime();
+        }
+      });
+
+      // Retornar los ingresos formateados para mostrar
+      return ingresos.map(ingreso => ({
+        nombre: ingreso.nombre,
+        apellido: ingreso.apellido,
+        dia: ingreso.diaFormateado,
+        horario: ingreso.horarioFormateado
+      }));
+    })
+  );
+}
+
+private formatDate(date: Date): string {
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // Los meses en JavaScript son base 0.
+  const year = date.getFullYear();
+  return `${day}/${month}/${year}`;
+}
+
+private formatTime(date: Date): string {
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  const seconds = String(date.getSeconds()).padStart(2, '0');
+  return `${hours}:${minutes}:${seconds}`;
+}
+
+getTurnosPorDia(): Observable<any[]> {
+  return this.afs.collection('turnos').snapshotChanges().pipe(
+    map(actions => {
+      return actions.map(a => {
+        const data = a.payload.doc.data() as any;
+        const turnoTimestamp = data.turno.seconds * 1000; // Convertir a milisegundos
+        const turnoDate = new Date(turnoTimestamp);
+        const dia = `${String(turnoDate.getDate()).padStart(2, '0')}/${String(turnoDate.getMonth() + 1).padStart(2, '0')}/${turnoDate.getFullYear()}`;
+        return {
+          ...data,
+          dia
+        };
+      });
+    })
+  );
+}
+
+getTurnosPorEspecialidad(): Observable<any[]> {
+  return this.afs.collection('turnos').snapshotChanges().pipe(
+    map(actions => {
+      return actions.map(a => {
+        const data = a.payload.doc.data() as any;
+        return {
+          ...data
+        };
+      });
+    })
+  );
+}
+
+getTurnosSolicitadosPorMedico(): Observable<any[]> {
+  return this.afs.collection('turnos').snapshotChanges().pipe(
+    mergeMap(actions => {
+      const turnos = actions.map(a => {
+        const data: any = a.payload.doc.data();
+        const turnoTimestamp = data.turno.seconds * 1000; // Convertir a milisegundos
+        const turnoDate = new Date(turnoTimestamp);
+        const dia = `${String(turnoDate.getDate()).padStart(2, '0')}/${String(turnoDate.getMonth() + 1).padStart(2, '0')}/${turnoDate.getFullYear()}`;
+        return {
+          ...data,
+          dia,
+          idEspecialista: data.especialista
+        };
+      });
+
+      // Obtener todos los especialistas
+      return from(this.afs.collection('especialistas').get()).pipe(
+        map(snapshot => {
+          const especialistas = snapshot.docs.map(doc => ({
+            uid: doc.id,
+            nombre: (doc.data() as any).nombre,
+            apellido: (doc.data() as any).apellido
+          }));
+
+          // Mapear los turnos para agregar nombre y apellido del especialista
+          return turnos.map(turno => {
+            const especialista = especialistas.find(e => e.uid === turno.idEspecialista);
+            return {
+              ...turno,
+              medico: especialista ? `${especialista.nombre} ${especialista.apellido}` : 'Desconocido'
+            };
+          });
+        })
+      );
+    })
+  );
+}
+
+getTurnosRealizadosPorMedico(): Observable<any[]> {
+  return this.afs.collection('turnos', ref => ref.where('estado', '==', 'realizado')).snapshotChanges().pipe(
+    mergeMap(actions => {
+      const turnos = actions.map(a => {
+        const data: any = a.payload.doc.data();
+        const turnoTimestamp = data.turno.seconds * 1000; // Convertir a milisegundos
+        const turnoDate = new Date(turnoTimestamp);
+        const dia = `${String(turnoDate.getDate()).padStart(2, '0')}/${String(turnoDate.getMonth() + 1).padStart(2, '0')}/${turnoDate.getFullYear()}`;
+        return {
+          ...data,
+          dia,
+          idEspecialista: data.especialista
+        };
+      });
+
+      // Obtener todos los especialistas
+      return from(this.afs.collection('especialistas').get()).pipe(
+        map(snapshot => {
+          const especialistas = snapshot.docs.map(doc => ({
+            uid: doc.id,
+            nombre: (doc.data() as any).nombre,
+            apellido: (doc.data() as any).apellido
+          }));
+
+          // Mapear los turnos para agregar nombre y apellido del especialista
+          return turnos.map(turno => {
+            const especialista = especialistas.find(e => e.uid === turno.idEspecialista);
+            return {
+              ...turno,
+              medico: especialista ? `${especialista.nombre} ${especialista.apellido}` : 'Desconocido'
+            };
+          });
+        })
+      );
+    })
+  );
+}
+
+
 
 }

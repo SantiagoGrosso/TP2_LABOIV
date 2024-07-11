@@ -9,6 +9,8 @@ import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { FormsModule } from '@angular/forms';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { FriendlyDatePipe } from '../../pipes/friendly-date.pipe';
+import { NumberToWordsPipe } from '../../pipes/number-to-words.pipe';
 
 interface DatoDinamico {
   clave: string;
@@ -27,7 +29,7 @@ interface HistoriaClinica {
 @Component({
   selector: 'app-mi-perfil',
   standalone: true,
-  imports: [NgIf, CommonModule, FormsModule],
+  imports: [NgIf, CommonModule, FormsModule, NumberToWordsPipe],
   templateUrl: './mi-perfil.component.html',
   styleUrls: ['./mi-perfil.component.css'],
   animations: [

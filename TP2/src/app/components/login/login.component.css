@@ -3,7 +3,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 90vh;
   margin: 0;
   background-image: url('../../../assets/fondo.jpg');
   background-size: cover; /* La imagen se ajustará para cubrir toda la pantalla */

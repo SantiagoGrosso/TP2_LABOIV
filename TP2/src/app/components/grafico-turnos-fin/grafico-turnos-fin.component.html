@@ -1,0 +1,20 @@
+<div class="background">
+    <div class="row">
+      <div class="col-md-12 mb-2 title">
+        <h1>Turnos Realizados por Médico</h1>
+        <div class="date-picker">
+          <label for="start-date">Desde: </label>
+          <input type="date" id="start-date" [max]="startMaxDate" (change)="onStartDateChange($event)" />
+          <label for="end-date">Hasta: </label>
+          <input type="date" id="end-date" [min]="endMinDate" (change)="onEndDateChange($event)" />
+        </div>
+        <button class="btn" (click)="onPdfDownload()"><span>Descargar </span><i class="bi bi-download"></i></button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div #chartContainer id="chart" echarts [options]="option"></div>
+      </div>
+    </div>
+  </div>
+  

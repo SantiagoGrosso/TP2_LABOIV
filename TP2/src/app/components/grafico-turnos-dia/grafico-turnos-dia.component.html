@@ -1,0 +1,14 @@
+<div class="background">
+    <div class="row">
+      <div class="col-md-12 mb-2 title">
+        <h1>Turnos por Día: {{countsTotales}}</h1>
+        <button class="btn" (click)="onPdfDownload()"><span>Descargar </span><i class="bi bi-download"></i></button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div #chartContainer id="chart" echarts [options]="option"></div>
+      </div>
+    </div>
+  </div>
+  

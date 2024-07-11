@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { NgIf } from '@angular/common';
+import { HoverTrailDirective } from '../../directives/hover-trail.directive';
+import { ClickMarkDirective } from '../../directives/clickmark.directive';
 
 @Component({
   selector: 'app-registro',
@@ -13,7 +16,9 @@ import { trigger, transition, style, animate } from '@angular/animations';
         animate('500ms ease-out', style({ opacity: 1, transform: 'translateY(0)' }))
       ])
     ])
-  ]
+  ],
+  standalone: true,
+  imports: [HoverTrailDirective, ClickMarkDirective, NgIf]
 })
 export class RegistroComponent {
   constructor(public router: Router) { }

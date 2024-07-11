@@ -1,0 +1,19 @@
+<body appChangeBackground>
+  <div class="button-container">
+      <button (click)="selectGrafico('ingresos')">Ingresos</button>
+      <button (click)="selectGrafico('turnos-dia')">Turnos por Día</button>
+      <button (click)="selectGrafico('turnos-esp')">Turnos por Especialista</button>
+      <button (click)="selectGrafico('turnos-sol')">Turnos Solicitados</button>
+      <button (click)="selectGrafico('turnos-fin')">Turnos Finalizados</button>
+    </div>
+    
+    <div class="grafico-container">
+      <ng-container [ngSwitch]="selectedGrafico">
+        <app-grafico-ingresos *ngSwitchCase="'ingresos'"></app-grafico-ingresos>
+        <app-grafico-turnos-dia *ngSwitchCase="'turnos-dia'"></app-grafico-turnos-dia>
+        <app-grafico-turnos-esp *ngSwitchCase="'turnos-esp'"></app-grafico-turnos-esp>
+        <app-grafico-turnos-sol *ngSwitchCase="'turnos-sol'"></app-grafico-turnos-sol>
+        <app-grafico-turnos-fin *ngSwitchCase="'turnos-fin'"></app-grafico-turnos-fin>
+      </ng-container>
+    </div>
+</body>

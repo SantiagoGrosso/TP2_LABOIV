@@ -7,8 +7,7 @@
         <p>Apellido: {{ user?.data?.apellido }}</p>
         <p>DNI: {{ user?.data?.DNI }}</p>
         <p>Correo: {{ user?.data?.mail }}</p>
-        <p>Edad: {{ user?.data?.edad }}</p>
-        <!-- Muestra más información según sea necesario -->
+        <p>Edad: {{ user?.data?.edad }} ({{ user?.data?.edad | numberToWords }})</p>
       </div>
       
       <div *ngIf="user?.role === 'especialista'">
@@ -17,7 +16,7 @@
         <p>Apellido: {{ user?.data?.apellido }}</p>
         <p>DNI: {{ user?.data?.DNI }}</p>
         <p>Correo: {{ user?.data?.mail }}</p>
-        <p>Edad: {{ user?.data?.edad }}</p>
+        <p>Edad: {{ user?.data?.edad }} ({{ user?.data?.edad | numberToWords }})</p>
         <p>Especialidad: {{ user?.data?.especialidad }}</p>
         <!-- Botones para seleccionar horarios -->
         <div class="horarios-selector">
@@ -39,7 +38,7 @@
         <p>Apellido: {{ user?.data?.apellido }}</p>
         <p>DNI: {{ user?.data?.DNI }}</p>
         <p>Correo: {{ user?.data?.mail }}</p>
-        <p>Edad: {{ user?.data?.edad }}</p>
+        <p>Edad: {{ user?.data?.edad }} ({{ user?.data?.edad | numberToWords }})</p>
         <p>Obra social: {{ user?.data?.obraSocial }}</p>
         <!-- Mostrar historias clínicas -->
         <div *ngIf="historiasClinicas && historiasClinicas.length > 0">
@@ -80,6 +79,5 @@
         </div>
       </div>
     </div>
-
   </div>
 </body>

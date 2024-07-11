@@ -14,6 +14,8 @@ import { getFirestore } from 'firebase/firestore';
 import { RecaptchaCommonModule } from 'ng-recaptcha/lib/recaptcha-common.module';
 import { RecaptchaFormsModule, RecaptchaModule } from 'ng-recaptcha';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 export const appConfig: ApplicationConfig = {
   providers: [provideRouter(routes),
@@ -33,7 +35,11 @@ export const appConfig: ApplicationConfig = {
       AuthService,
       RecaptchaModule,
       RecaptchaFormsModule,
-      BrowserAnimationsModule
+      BrowserAnimationsModule,
+      NgxChartsModule,
+      NgxEchartsModule.forRoot({
+        echarts: () => import('echarts')
+      })
     )
   ]
 };

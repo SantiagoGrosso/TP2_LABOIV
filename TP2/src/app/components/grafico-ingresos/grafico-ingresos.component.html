@@ -1,0 +1,26 @@
+
+    <div class="background">
+        <div class="row">
+          <div class="col-md-12 mb-2 title">
+            <h1>Inicios de sesión totales: {{countsTotales}}</h1>
+            <button class="btn" (click)="onPdfDownload()"><span>Descargar </span><i class="bi bi-download"></i></button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div #chartContainer id="chart" echarts [options]="option" (chartClick)="onChartClick($event)"></div>
+          </div>
+        </div>
+        <div class="row users-container">
+          <div class="col-md-12 d-flex justify-content-center">
+            <h1>{{selectedDay}}</h1>
+          </div>
+          <div class="container">
+            <div class="user" *ngFor="let ingreso of selectedIngresos">
+              <span>{{ingreso.nombre}} {{ingreso.apellido}}</span>
+              <span>{{ingreso.dia}} {{ingreso.horario}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+  

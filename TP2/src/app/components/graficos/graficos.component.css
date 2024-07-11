@@ -1,0 +1,44 @@
+body {
+  font-family: 'Arial', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 90vh;
+  margin: 0;
+  background-color: #d1a054;
+  background-image: url('../../../assets/fondo-pacientes.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.button-container button {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  background-color: #2e4c6d;
+  color: #fff;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.button-container button:hover {
+  background-color: #1f3b52;
+  transform: scale(1.05);
+}
+
+.grafico-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  width: 100%;
+}

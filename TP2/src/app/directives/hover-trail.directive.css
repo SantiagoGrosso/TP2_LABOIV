@@ -1,0 +1,11 @@
+.trail {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: rgba(46, 76, 109, 0.5); /* Color en formato RGB */
+    border-radius: 50%;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+  }
+  

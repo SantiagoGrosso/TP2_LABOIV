@@ -6,11 +6,12 @@ import { Router } from '@angular/router';
 import { NgIf } from '@angular/common';
 import { BotonesInicioComponent } from '../botones-inicio/botones-inicio.component';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { UppercasePipe } from '../../pipes/uppercase.pipe';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [NgIf, FormsModule, ReactiveFormsModule, BotonesInicioComponent],
+  imports: [NgIf, FormsModule, ReactiveFormsModule, BotonesInicioComponent, UppercasePipe],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
   animations: [
