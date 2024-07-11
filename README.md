@@ -1,3 +1,4 @@
+<h1>Bienvenidos a la Clínica Online 2024</h1>
 ¡Hola! ✨
 
 Bienvenidos a la Clínica Online, un proyecto innovador de 2024 enfocado en la atención de pacientes y la organización eficiente de especialistas de manera virtual.
@@ -12,11 +13,10 @@ En la clínica trabajan profesionales de diversas especialidades que ocupan los 
 Contamos con un sector dedicado a la organización y administración de la clínica, asegurando un funcionamiento óptimo y eficiente.
 
 🌐 Tecnología Avanzada:
-Nuestra web está diseñada utilizando TypeScript y el framework Angular, complementada con Bootstrap para el diseño de interfaces y ng-bootstrap para ciertos componentes. Utilizamos Firebase para el backend, entre otras tecnologías avanzadas.
+Nuestra web está diseñada utilizando TypeScript y el framework Angular. Utilizamos Firebase para el backend, entre otras tecnologías avanzadas.
 
 Únete a nosotros y experimenta una atención médica de calidad desde la comodidad de tu hogar.
 
 📞 Contáctanos Hoy Mismo:
-
 Email: santigrosso107@gmail.com
 Sitio Web: https://tp02-ef411.web.app/bienvenida
