@@ -1,4 +1,4 @@
-<h1>Bienvenidos a la Clínica Online 2024</h1>
+<h1>Bienvenidos a la Clínica Online 2024 con temática de Dune, la historia de Frank Herbert</h1>
 ¡Hola! ✨
 
 Bienvenidos a la Clínica Online, un proyecto innovador de 2024 enfocado en la atención de pacientes y la organización eficiente de especialistas de manera virtual.
@@ -20,3 +20,25 @@ Nuestra web está diseñada utilizando TypeScript y el framework Angular. Utiliz
 📞 Contáctanos Hoy Mismo:
 Email: santigrosso107@gmail.com
 Sitio Web: https://tp02-ef411.web.app/bienvenida
+
+
+<h1>Páginas</h1>
+
+<h3>Página bienvenida - Acceso al login y registro</h3>
+![image](https://github.com/SantiagoGrosso/TP2_LABOIV/assets/98592117/8c03d848-59ae-4cd9-9247-8fc127079dd8)
+
+<h3>Login - Con botones rápidos de inicio</h3>
+
+![image](https://github.com/SantiagoGrosso/TP2_LABOIV/assets/98592117/42724ad3-19bd-4c7f-9f55-39bfdadbff9a)
+
+<h3>Registro - Se permite seleccionar registro como paciente o como especialista</h3>
+
+![image](https://github.com/SantiagoGrosso/TP2_LABOIV/assets/98592117/ddcb40d0-9ea9-4848-843a-209754615ff8)
+
+![image](https://github.com/SantiagoGrosso/TP2_LABOIV/assets/98592117/041d328f-3609-456e-a76d-f99745cbf9a6)
+![image](https://github.com/SantiagoGrosso/TP2_LABOIV/assets/98592117/cb583efc-374d-471d-915b-da0a38a4d325)
+
+
+
+
+
