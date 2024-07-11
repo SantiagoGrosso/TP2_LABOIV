@@ -1,28 +1,23 @@
-1era parte:
+¡Hola! ✨
 
-* Botones de Acceso rápido
-- Deben ser botones cuadrados con bordes redondeados
-- Deben tener la imagen de perfil del usuario
-- Deben estar a la derecha del login, uno abajo del otro, 6 usuarios (3 pacientes, 2 especialistas, 1 admin) (HECHO)
+Bienvenidos a la Clínica Online, un proyecto innovador de 2024 enfocado en la atención de pacientes y la organización eficiente de especialistas de manera virtual.
 
-* Registro de usuarios
-- Al ingresar a la página solo se deben ver 2 imágenes que represente a un paciente o especialista, según esa elección mostrará un formulario correspondiente.
-- Estas imágenes deben estar en botones cuadrados con bordes redondeados (HECHO)
+🏥 Nuestra Clínica:
+Nuestra Clínica Online es especialista en salud y cuenta actualmente con seis consultorios, dos laboratorios físicos y una sala de espera general. Estamos abiertos al público de lunes a viernes de 8:00 a 19:00 y los sábados de 8:00 a 14:00.
 
-2da parte:
+👩‍⚕️👨‍⚕️ Nuestros Profesionales:
+En la clínica trabajan profesionales de diversas especialidades que ocupan los consultorios según su disponibilidad, atendiendo a pacientes con turno para consulta o tratamiento. Los turnos, que tienen una duración mínima de 30 minutos y pueden ser ajustados por los profesionales según su especialidad, se solicitan a través de nuestra web, donde se puede seleccionar al profesional o la especialidad deseada.
 
-* Sacar un turno - Comienza mostrando los PROFESIONALES en botones cuadrados con la imagen del mismo - Una vez seleccionado mostrará las ESPECIALIDADES, en botones rectangulares, con la imagen de la especialidad. En caso de no tener muestra imagen por default. También debe mostrar el nombre de la especialidad arriba del botón. - Una vez seleccionada la especialidad, aparecerán los días y horarios con turnos disponibles para ese PROFESIONAL. Estos botones deben ser cuadrados. Formato (2021-09-09 1:15 PM) (HECHO)
+📋 Organización y Administración:
+Contamos con un sector dedicado a la organización y administración de la clínica, asegurando un funcionamiento óptimo y eficiente.
 
-3era parte:
+🌐 Tecnología Avanzada:
+Nuestra web está diseñada utilizando TypeScript y el framework Angular, complementada con Bootstrap para el diseño de interfaces y ng-bootstrap para ciertos componentes. Utilizamos Firebase para el backend, entre otras tecnologías avanzadas.
 
-Sección Pacientes,	"Sección Pacientes, para los especialistas. Solo deberá mostrar los usuarios que el
-especialista haya atendido al menos 1 vez."	Mostrar los usuarios con CARD , con un detalle de las utimas 3 consultas. acceso a historia clinica (HECHO)
+Únete a nosotros y experimenta una atención médica de calidad desde la comodidad de tu hogar.
 
-solamente para el perfil Administrador, un excel con los datos de los
-usuarios."	Mostrar los usuarios con un favbutton redondo , imagen y nombre.Al seleccionarlo descarga los datos de que turnos tomo y con quien (HECHO)
+📞 Contáctanos Hoy Mismo:
 
-Mi perfil	"Para los usuarios paciente, un pdf con la historia clínica. El PDF tiene que tener
-logo de la clínica, título del informe y fecha de emisión."	Poder bajar Todas las atenciones que realice segun una ESPECIALIDAD (HECHO)
-
-Animaciones	"Se debe agregar al menos 2, como mínimo, animaciones de transición entre componentes al navegar
-la aplicación."	Desde abajo (HECHO)
+Teléfono: 123-456-789
+Email: contacto@clinicaonline.com
+Sitio Web: www.clinicaonline.com
